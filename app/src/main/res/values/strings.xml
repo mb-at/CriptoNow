@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CriptoNow</string>
+    <string name="prefs_file">credencialesUsuario</string>
 </resources>
