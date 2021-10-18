@@ -58,7 +58,7 @@ class AuthActivity : AppCompatActivity() {
         //Establecemos escuchador del botón de registro.
         signUpButton.setOnClickListener{
 
-            if (emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()){
+            if (emailEditText.text!!.isNotEmpty() && passwordEditText.text!!.isNotEmpty()){
 
                 //TODO: Validar que es un email correcto
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(
@@ -83,7 +83,7 @@ class AuthActivity : AppCompatActivity() {
         //Establecemos escuchador del botón de registro
         logInButton.setOnClickListener{
 
-            if (emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()){
+            if (emailEditText.text!!.isNotEmpty() && passwordEditText.text!!.isNotEmpty()){
 
                 //TODO: Validar que es un email correcto
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(
@@ -110,7 +110,6 @@ class AuthActivity : AppCompatActivity() {
         googleButton.setOnClickListener{
 
             //Configuración
-            TODO("Mirar el alerta que sale cuando retrocedo de la pantalla en la que se escoge email")
             val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.default_web_client_id))
                     .requestEmail()

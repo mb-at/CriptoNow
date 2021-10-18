@@ -34,7 +34,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setUp(email:String, provider: String){
-        
+
             emailTextView.text = email
             providerTextView.text = provider
 

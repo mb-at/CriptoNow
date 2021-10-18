@@ -4,12 +4,12 @@
 
     <item android:drawable="@color/black"/>
     <item
-        android:left="10dp"
-        android:right="10dp"
-        android:top="260dp"
-        android:bottom="260dp"
+        android:left="40dp"
+        android:right="40dp"
+        android:top="200dp"
+        android:bottom="200dp"
         >
-        <bitmap android:src="@drawable/ratatouille"/>
+        <bitmap android:src="@drawable/shiba"/>
     </item>
 
 </layer-list>
