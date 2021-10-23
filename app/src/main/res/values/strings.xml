@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">CriptoNow</string>
     <string name="prefs_file">credencialesUsuario</string>
+    <string name="blockchain">Blockchain</string>
+    <string name="criptoassets">Criptoactivos</string>
+    <string name="nfts">Nfts</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="badges">Insignias</string>
+    <string name="profile">Perfil</string>
+
+
 </resources>
