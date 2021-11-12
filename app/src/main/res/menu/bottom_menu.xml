@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/badges"
+        android:title="Insignias"
+        android:icon="@drawable/achievement"/>
+
+    <item android:id="@+id/profile"
+        android:title="Perfil"
+        android:icon="@drawable/profile"/>
+
+    <item android:id="@+id/criptonow"
+        android:title="Criptonow"
+        android:icon="@drawable/criptonowcoin"/>
+
+    <item android:id="@+id/logout"
+        android:title="Cerrar sesión"
+        android:icon="@drawable/turnoff"/>
+
+
+</menu>

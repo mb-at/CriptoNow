@@ -13,7 +13,7 @@ class CriptoNowDB (private val context: Context){
     /*Clase que gestiona la base de datos interna de la aplicación*/
 
     companion object{
-        private val DB_NAME = "MyExternalDatabase.db"
+        private val DB_NAME = "criptonowdb.db"
     }
 
     fun openDatabase(): SQLiteDatabase {
