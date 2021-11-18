@@ -9,7 +9,7 @@ import java.io.FileOutputStream
 import java.lang.Exception
 import java.sql.SQLException
 
-class CriptoNowDB (private val context: Context){
+class CriptoNowDB(private val context: PreguntadosFragment){
     /*Clase que gestiona la base de datos interna de la aplicación*/
 
     companion object{
@@ -18,11 +18,12 @@ class CriptoNowDB (private val context: Context){
 
     fun openDatabase(): SQLiteDatabase {
 
-        val dbFile = context.getDatabasePath(DB_NAME)
+        val dbFile = context.activity?.getDatabasePath(DB_NAME)
+
 
         try{
-            val checkDB = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE,null)
-            checkDB.close()
+            val checkDB = context.activity?.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE,null)
+            checkDB?.close()
             copyDatabase(dbFile)
 
         }catch (e: Exception){
@@ -30,15 +31,15 @@ class CriptoNowDB (private val context: Context){
             e.printStackTrace()
         }
 
-        return SQLiteDatabase.openDatabase(dbFile.path,null, SQLiteDatabase.OPEN_READWRITE)
+        return SQLiteDatabase.openDatabase(dbFile?.path!!,null, SQLiteDatabase.OPEN_READWRITE)
     }
 
-    private fun copyDatabase(dbFile: File){
+    private fun copyDatabase(dbFile: File?){
 
-        val openDB = context.assets.open(DB_NAME)
+        val openDB = context.activity?.assets?.open(DB_NAME)
         val outPutStream = FileOutputStream(dbFile)
         val buffer = ByteArray(1024)
-        while(openDB.read(buffer)>0){
+        while(openDB?.read(buffer)!! >0){
 
             outPutStream.write(buffer)
             Log.d("DB","writing")
@@ -55,11 +56,11 @@ class CriptoNowDB (private val context: Context){
     fun FireQuery(query: String): Cursor? {
 
         var TempCursor: Cursor? = null
-        val database = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null)
+        val database = context.activity?.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null)
 
         try{
 
-            TempCursor = database.rawQuery(query, null)
+            TempCursor = database?.rawQuery(query, null)
             if(TempCursor != null && TempCursor.count > 0){
 
                 if(TempCursor.moveToFirst()){

@@ -11,12 +11,12 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        db = CriptoNowDB(this)
+        //db = CriptoNowDB(this)
 
         //Abrimos la base de datos
         db?.openDatabase()
 
-        //Una vez que llega a esta activity, inicia la en mainActivity
+        //Una vez que llega a esta activity, inicia la siguiente actividad
         startActivity(Intent(this, AuthActivity::class.java))
 
         //Evita que al navegar hacia atrás se siga mostrando la splash screen.

@@ -1,26 +1,12 @@
 package com.example.criptonow
 
-import android.app.Notification
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
-import android.content.QuickViewConstants
-import android.content.res.Configuration
-import android.os.BadParcelableException
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
-import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
-import android.widget.Toolbar
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
 import java.lang.Exception
@@ -37,15 +23,15 @@ class HomeActivity : AppCompatActivity(){
 
     //Array de eleción cuando pulsamos el botón para aprender sobre criptomonedas
     val itemList = arrayOf("Bitcoin","Altcoins")
+    private var db:CriptoNowDB?=null
 
-    private var db: CriptoNowDB ?= null
+
+
     private val TAG = "HomeActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        db = CriptoNowDB(this)
-        getData()
 
         //SetUp
         val bundle = intent.extras
@@ -104,33 +90,6 @@ class HomeActivity : AppCompatActivity(){
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.containerView, fragment)
             commit()
-        }
-    }
-
-    private fun getData(){
-
-        try {
-
-            val sqlQuery = "SELECT pregunta FROM CRIPTOPREGUNTAS"
-            db?.FireQuery(sqlQuery)?.use {
-
-                if(it.count > 0){
-
-                    do{
-
-                        val col = it.getColumnIndex("pregunta")
-                        val values = it.getString(col)
-                        Log.d(TAG,"Preguntas de criptnow: $values")
-                        //pruebaBD.setText(values)
-
-                    }while (it.moveToNext())
-                }
-
-            }
-
-        }catch (e:Exception){
-
-            e.printStackTrace()
         }
     }
 

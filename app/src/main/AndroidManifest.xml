@@ -12,8 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CriptoNow">
-        <activity android:name=".BadgesActivity" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ForgotPassword"></activity>
         <activity android:name=".HomeActivity" />
         <activity
             android:name=".SplashActivity"

@@ -28,6 +28,11 @@ class AuthActivity : AppCompatActivity() {
         setup()
         session()
 
+        //Añadimos el escuchador para iniciar el proceso de recuperación de contraseña
+        forgotPassword.setOnClickListener{
+            startActivity(Intent(this, ForgotPassword::class.java))
+        }
+
     }
 
     override fun onStart() {
