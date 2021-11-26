@@ -44,6 +44,6 @@ class ForgotPassword : AppCompatActivity() {
 
         }
 
-        //Validar que es un correo básico y que no existe ya en la base de datos
+        //Validar que es un correo básico y que no existe ya en la base de datos. Y aparte también validar que es un correo válido.
     }
 }

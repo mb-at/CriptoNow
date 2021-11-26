@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fece2f"
     tools:context=".PreguntadosFragment">
 
     <LinearLayout
@@ -24,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textStyle="bold"
             android:text="Pregunta de cripto"
             android:textColor="@color/black"
             android:textSize="17sp" />
@@ -31,48 +33,63 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="37dp" />
+            android:minHeight="20dp" />
 
         <Button
             android:id="@+id/respuestaPreguntados1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
+            android:layout_height="57dp"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:backgroundTint="#966919"
             android:text="Respuesta1" />
 
         <Button
             android:id="@+id/respuestaPreguntados2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="57dp"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/black"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:backgroundTint="#966919"
             android:text="Respuesta2" />
 
         <Button
             android:id="@+id/respuestaPreguntados3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="57dp"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/black"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:backgroundTint="#966919"
             android:text="Respuesta3" />
 
         <Button
             android:id="@+id/respuestaPreguntados4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="57dp"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/black"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:backgroundTint="#966919"
             android:text="Respuesta4" />
 
         <Button
             android:id="@+id/siguientePreguntados"
-            android:layout_width="144dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/design_default_color_primary_variant"
+            android:backgroundTint="@color/black"
             android:layout_gravity="right"
-            android:text="NEXT"
-            android:textColor="@color/white" />
+            android:text=">>"
+            android:textColor="#9b9b9b" />
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="-42dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/pistapreguntados"/>
 
     </LinearLayout>
 

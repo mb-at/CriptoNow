@@ -14,24 +14,53 @@ class CriptoNowFragment: Fragment() {
 
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var preguntados = PreguntadosFragment()
 
-        criptoassetsIV.setOnClickListener{
+        val preguntados = PreguntadosFragment()
+
+        preguntadosBlockChain.setOnClickListener{
+
+            //Enviamos la categoría elegida por el usuario
+            val bundle = Bundle()
+            bundle.putString("category", "blockchain")
+            preguntados.arguments = bundle
 
             parentFragmentManager.beginTransaction().apply {
+
+                replace(R.id.containerView, preguntados)
+                commit()
+            }
+        }
+
+        preguntadosCriptoActivos.setOnClickListener{
+
+            //Enviamos la categoría elegida por el usuario
+            val bundle = Bundle()
+            bundle.putString("category", "criptoactivos")
+            preguntados.arguments = bundle
+
+            parentFragmentManager.beginTransaction().apply {
+
+                replace(R.id.containerView, preguntados)
+                commit()
+            }
+        }
+
+        preguntadosNfts.setOnClickListener{
+
+            //Enviamos la categoría elegida por el usuario
+            val bundle = Bundle()
+            bundle.putString("category", "nfts")
+            preguntados.arguments = bundle
+
+            parentFragmentManager.beginTransaction().apply {
+
                 replace(R.id.containerView, preguntados)
                 commit()
             }
         }
     }
-
-
-
-
-
-    //In Fragments use:
-    //Toast.makeText(requireActivity(), "your message", Toast.LENGTH_LONG).show()
+        //In Fragments use:
+        //Toast.makeText(requireActivity(), "your message", Toast.LENGTH_LONG).show()
 }

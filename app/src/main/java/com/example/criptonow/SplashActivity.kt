@@ -7,12 +7,11 @@ import android.os.Bundle
 class SplashActivity : AppCompatActivity() {
 
     //Instanciamos nuestra base de datos
-    private var db:CriptoNowDB?=null
+    private var db: CriptoNowDB?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //db = CriptoNowDB(this)
-
+        db = CriptoNowDB(this)
         //Abrimos la base de datos
         db?.openDatabase()
 

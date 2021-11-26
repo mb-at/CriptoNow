@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
-import java.lang.Exception
 
 /*Esta clase va  a ser el inicio de la aplicación. Aparecerá en pantalla una vez que el usuario
 * ya registrado ha hecho login en la aplicación.*/
@@ -23,9 +21,6 @@ class HomeActivity : AppCompatActivity(){
 
     //Array de eleción cuando pulsamos el botón para aprender sobre criptomonedas
     val itemList = arrayOf("Bitcoin","Altcoins")
-    private var db:CriptoNowDB?=null
-
-
 
     private val TAG = "HomeActivity"
 

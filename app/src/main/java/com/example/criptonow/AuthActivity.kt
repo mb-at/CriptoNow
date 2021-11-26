@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.ActionCodeEmailInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_auth.*
@@ -76,7 +75,7 @@ class AuthActivity : AppCompatActivity() {
                                 //Creamos un mensaje que indique que la autenticación ha ido bien
                                 Toast.makeText(this, "Te has registrado correctamente:)", Toast.LENGTH_LONG).show()
 
-                                showHome(it.result?.user?.email?: "",ProviderType.BASIC)
+                                showHome(it.result?.user?.email?: "", ProviderType.BASIC)
                             }else{
 
                                 showAlert()
@@ -102,7 +101,7 @@ class AuthActivity : AppCompatActivity() {
                         Toast.makeText(this, "Has hecho login correctamente", Toast.LENGTH_LONG).show()
 
                         //Llevamos al usuario a la pantalla home de la aplicación
-                        showHome(it.result?.user?.email?: "",ProviderType.BASIC)
+                        showHome(it.result?.user?.email?: "", ProviderType.BASIC)
 
                     }else{
 
@@ -169,7 +168,7 @@ class AuthActivity : AppCompatActivity() {
 
                         if(it.isSuccessful){
 
-                            showHome(account.email?:"",ProviderType.GOOGLE)
+                            showHome(account.email?:"", ProviderType.GOOGLE)
                         }else{
 
                             showAlert()

@@ -5,6 +5,7 @@
     android:id="@+id/auth"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffc600"
     tools:context=".AuthActivity">
 
 
@@ -91,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/fbnavyblue"
+                android:backgroundTint="#80461B"
                 android:text="SignUp"
                 android:textColor="@color/white" />
 
@@ -101,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/fbblue"
+                android:backgroundTint="#966919"
                 android:text="Login"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -110,9 +111,10 @@
             android:id="@+id/googleButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/black"
+            android:textAlignment="center"
             android:text="Google"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/forgotPassword"
