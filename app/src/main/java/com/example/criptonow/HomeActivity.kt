@@ -18,9 +18,7 @@ enum class ProviderType{
 }
 
 class HomeActivity : AppCompatActivity(){
-
     //Array de eleción cuando pulsamos el botón para aprender sobre criptomonedas
-    val itemList = arrayOf("Bitcoin","Altcoins")
 
     private val TAG = "HomeActivity"
 

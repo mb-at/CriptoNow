@@ -74,22 +74,41 @@
             android:backgroundTint="#966919"
             android:text="Respuesta4" />
 
-        <Button
-            android:id="@+id/siguientePreguntados"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/black"
-            android:layout_gravity="right"
-            android:text=">>"
-            android:textColor="#9b9b9b" />
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="-42dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/pistapreguntados"/>
+            <ImageView
+                android:id="@+id/pistaPreguntados"
+                android:layout_width="55dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/pistapreguntados" />
+
+            <Button
+                android:id="@+id/anteriorPreguntados"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="150dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/black"
+                android:text="back"
+                android:textColor="#9b9b9b" />
+
+            <Button
+                android:id="@+id/siguientePreguntados"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:layout_gravity="right"
+                android:text=">>"
+                android:textColor="#9b9b9b" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

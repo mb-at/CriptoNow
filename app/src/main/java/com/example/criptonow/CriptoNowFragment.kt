@@ -19,6 +19,7 @@ class CriptoNowFragment: Fragment() {
 
         val preguntados = PreguntadosFragment()
 
+        //Listeners del fragment.
         preguntadosBlockChain.setOnClickListener{
 
             //Enviamos la categoría elegida por el usuario
@@ -61,6 +62,4 @@ class CriptoNowFragment: Fragment() {
             }
         }
     }
-        //In Fragments use:
-        //Toast.makeText(requireActivity(), "your message", Toast.LENGTH_LONG).show()
 }

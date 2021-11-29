@@ -1,13 +1,16 @@
 package com.example.criptonow
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
+import android.sax.EndElementListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_preguntados.*
-import java.lang.Exception
+import java.util.*
+import java.util.Collections.swap
+
 
 class PreguntadosFragment : Fragment() {
     /*Este fragmento va a contener la lógica del modo de juedo de preguntados para las tres
@@ -21,7 +24,9 @@ class PreguntadosFragment : Fragment() {
 
             //Array que contiene los elementos que forman una pregunta => pos0=pregunta, pos1=ricorrecta1,
             // pos2=rincorrecta2, pos3=rincorrecta3, pos4=rcorrecta
-            var pregunta: Array<String> = arrayOf("", "", "", "", "")
+            var question: Array<String> = arrayOf("", "", "", "", "")
+            //Variable que accede a la posición del cursor cuando recupera las preguntas de la base de datos
+            var posicionCursor = 0
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,14 +38,30 @@ class PreguntadosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Instanciamos la base de datos para poder usarla
         db = context?.let { CriptoNowDB(it) }
 
         //Recibimos la categoría deseada para el preguntados desde el otro fragment.
         categoryPreguntados = arguments?.getString("category")
-        Log.d(TAG,"La categoría elegida ha sido $categoryPreguntados")
 
-        var posicion = 0
-        var question = getQuestion(posicion, categoryPreguntados)
+        //Establecemos las preguntas de la categoría que hayamos elegido.
+        setQuestion(posicionCursor, categoryPreguntados)
+
+        pistaPreguntados.setOnClickListener{
+
+            Toast.makeText(requireActivity(), "Funciono:)", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+    }
+
+    private fun setQuestion(cursorPosition: Int, categoryPreguntados: String?){
+        /*Rellena la vista asociada con este activity con los elementos que conforman la pregunta.
+        * La posición del cursor le indica la pregunta exacta que tiene que tratar en cada momento*/
+
+
+        var question = getQuestion(posicionCursor, categoryPreguntados)
 
         preguntaPreguntados.setText(question[0])
         respuestaPreguntados1.setText(question[1])
@@ -51,8 +72,8 @@ class PreguntadosFragment : Fragment() {
 
         siguientePreguntados.setOnClickListener{
 
-            posicion += 1
-            getQuestion(posicion, categoryPreguntados)
+            posicionCursor += 1
+            getQuestion(posicionCursor, categoryPreguntados)
 
             //Rellenamos los elementos de la pregunta
             preguntaPreguntados.setText(question[0])
@@ -60,9 +81,20 @@ class PreguntadosFragment : Fragment() {
             respuestaPreguntados2.setText(question[2])
             respuestaPreguntados3.setText(question[3])
             respuestaPreguntados4.setText(question[4])
-
         }
 
+        anteriorPreguntados.setOnClickListener {
+
+            posicionCursor -= 1
+            getQuestion(posicionCursor, categoryPreguntados)
+
+            //Rellenamos los elementos de la pregunta
+            preguntaPreguntados.setText(question[0])
+            respuestaPreguntados1.setText(question[1])
+            respuestaPreguntados2.setText(question[2])
+            respuestaPreguntados3.setText(question[3])
+            respuestaPreguntados4.setText(question[4])
+        }
     }
 
     private fun getQuestion(posicion: Int, categoria: String?): Array<String> {
@@ -75,43 +107,60 @@ class PreguntadosFragment : Fragment() {
             //val sqlQuery = "SELECT pregunta, rincorrecta1, rincorrecta2, rincorrecta3, rcorrecta FROM CRIPTOPREGUNTAS"
             db?.FireQuery(sqlQuery)?.use {
 
+                //Mueve el cursor a la posición que indique el parámetro.
                 it.moveToPosition(posicion)
+
+                //Generamos un orden aleatorio para la colocación de las respuestas
+                var randomOrder = getOrderPreguntados()
 
                 if (it.count > 0) {
 
+                    /*Asigna los valores al array que conforma la pregunta de manera aletoria.
+                     De tal forma que la pregunta que la pregunta correcta varíe de posición*/
                     val col = it.getColumnIndex("pregunta")
                     val preg = it.getString(col)
-                    pregunta.set(0,preg)
+                    question.set(0, preg)
 
                     val col2 = it.getColumnIndex("rincorrecta1")
                     val rincorrecta1 = it.getString(col2)
-                    pregunta.set(1,rincorrecta1)
+                    question.set(randomOrder[0], rincorrecta1)
 
 
                     val col3 = it.getColumnIndex("rincorrecta2")
                     val rincorrecta2 = it.getString(col3)
-                    pregunta.set(2,rincorrecta2)
+                    question.set(randomOrder[1], rincorrecta2)
 
 
                     val col4 = it.getColumnIndex("rincorrecta3")
                     val rincorrecta3 = it.getString(col4)
-                    pregunta.set(3,rincorrecta3)
+                    question.set(randomOrder[2], rincorrecta3)
 
 
                     val col5 = it.getColumnIndex("rcorrecta")
                     val rcorrecta = it.getString(col5)
-                    pregunta.set(4,rcorrecta)
+                    question.set(randomOrder[3], rcorrecta)
 
                 }
             }
 
         }catch (e: Exception){
 
-                e.printStackTrace()
-            }
-
-            return pregunta
+                println("No hay más preguntas")
+                //e.printStackTrace()
         }
+
+            return question
+    }
+
+    fun getOrderPreguntados(): List<Int> {
+        /*Barajamos el orden de las preguntas para darle una mayor
+        * complejidad al preguntados*/
+
+        var posiciones = listOf(1,2,3,4)
+        val posicionesAleatorias = posiciones.shuffled()
+
+        return posicionesAleatorias
+    }
 
     /*private fun getQuestions(){
         /*Este método es para probar errores que me puedan surgir en la base de datos*/
@@ -165,4 +214,4 @@ class PreguntadosFragment : Fragment() {
 
 
     }*/
-    }
+}

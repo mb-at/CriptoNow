@@ -11,9 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,6 +73,7 @@
                     android:textSize="10dp" />
 
                 <ImageView
+                    android:id="@+id/opcionesBlockChain"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="175dp"
@@ -140,6 +139,7 @@
                     android:textSize="10dp" />
 
                 <ImageView
+                    android:id="@+id/opcionesCriptoActivos"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="155dp"
@@ -205,9 +205,10 @@
                     android:textSize="10dp" />
 
                 <ImageView
+                    android:id="@+id/opcionesNfts"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="210dp"
+                    android:layout_marginLeft="205dp"
                     android:layout_toRightOf="@id/textoNfts"
                     android:src="@drawable/options" />
 
