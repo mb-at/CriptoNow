@@ -8,10 +8,11 @@
     tools:context=".PreguntadosFragment">
 
     <LinearLayout
+        android:id="@+id/preguntados"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
         android:orientation="vertical"
@@ -25,56 +26,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textStyle="bold"
             android:text="Pregunta de cripto"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="20dp" />
 
         <Button
             android:id="@+id/respuestaPreguntados1"
             android:layout_width="match_parent"
-            android:layout_height="57dp"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="#966919"
-            android:text="Respuesta1" />
+            android:text="Respuesta1"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/respuestaPreguntados2"
             android:layout_width="match_parent"
             android:layout_height="57dp"
             android:layout_marginTop="20dp"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
             android:backgroundTint="#966919"
-            android:text="Respuesta2" />
+            android:text="Respuesta2"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/respuestaPreguntados3"
             android:layout_width="match_parent"
             android:layout_height="57dp"
             android:layout_marginTop="20dp"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
             android:backgroundTint="#966919"
-            android:text="Respuesta3" />
+            android:text="Respuesta3"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/respuestaPreguntados4"
             android:layout_width="match_parent"
             android:layout_height="57dp"
             android:layout_marginTop="20dp"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
             android:backgroundTint="#966919"
-            android:text="Respuesta4" />
+            android:text="Respuesta4"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
 
         <LinearLayout
+            android:id="@+id/accionesPreguntados"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -91,9 +90,9 @@
                 android:id="@+id/anteriorPreguntados"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:layout_marginLeft="150dp"
                 android:layout_marginRight="10dp"
-                android:layout_gravity="right"
                 android:backgroundTint="@color/black"
                 android:text="back"
                 android:textColor="#9b9b9b" />
@@ -102,11 +101,33 @@
                 android:id="@+id/siguientePreguntados"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
                 android:layout_gravity="right"
+                android:backgroundTint="@color/black"
                 android:text=">>"
                 android:textColor="#9b9b9b" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultadoPartida"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/resultado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Has acertado 3/5 preguntas"
+                android:gravity="center"/>
+            <Button
+                android:id="@+id/salirPartidaPreguntados"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Salir"
+                android:backgroundTint="@color/black"/>
         </LinearLayout>
 
 

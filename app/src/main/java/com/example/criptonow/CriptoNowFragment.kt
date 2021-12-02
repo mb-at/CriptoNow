@@ -29,7 +29,7 @@ class CriptoNowFragment: Fragment() {
 
             parentFragmentManager.beginTransaction().apply {
 
-                replace(R.id.containerView, preguntados)
+                replace(R.id.appfragments, preguntados)
                 commit()
             }
         }
@@ -43,7 +43,7 @@ class CriptoNowFragment: Fragment() {
 
             parentFragmentManager.beginTransaction().apply {
 
-                replace(R.id.containerView, preguntados)
+                replace(R.id.appfragments, preguntados)
                 commit()
             }
         }
@@ -57,7 +57,7 @@ class CriptoNowFragment: Fragment() {
 
             parentFragmentManager.beginTransaction().apply {
 
-                replace(R.id.containerView, preguntados)
+                replace(R.id.appfragments, preguntados)
                 commit()
             }
         }

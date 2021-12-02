@@ -29,7 +29,9 @@ class BadgesFragment : Fragment() {
         badgesRecyclerView.layoutManager = layoutManager
 
         adapter = RecyclerAdapter()
+        //Asociamos nuestra vista con un objeto de nuestra clase adaptador
         badgesRecyclerView.adapter = adapter
+
     }
 
 }

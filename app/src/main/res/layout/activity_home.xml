@@ -11,7 +11,7 @@
     tools:openDrawer="start">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/containerView"
+        android:id="@+id/appfragments"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:name="com.example.criptonow.BadgesFragment"

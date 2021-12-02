@@ -81,7 +81,7 @@ class HomeActivity : AppCompatActivity(){
         * que hayamos seleccionado.*/
 
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.containerView, fragment)
+            replace(R.id.appfragments, fragment)
             commit()
         }
     }
