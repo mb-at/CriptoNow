@@ -21,6 +21,7 @@ class HomeActivity : AppCompatActivity(){
     //Array de eleción cuando pulsamos el botón para aprender sobre criptomonedas
 
     private val TAG = "HomeActivity"
+    private var db: CriptoNowDB?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

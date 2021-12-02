@@ -1,21 +1,26 @@
 package com.example.criptonow
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import android.system.Os.close
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import org.w3c.dom.NamedNodeMap
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.Exception
 import java.sql.SQLException
 
-class CriptoNowDB(private val context: Context){
+class CriptoNowDB(val context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION){
     /*Clase que gestiona la base de datos interna de la aplicación*/
 
     companion object{
         private val DB_NAME = "criptonowdb.db"
+        private val DB_VERSION = 1
     }
 
     fun openDatabase(): SQLiteDatabase {
@@ -80,6 +85,37 @@ class CriptoNowDB(private val context: Context){
         }
 
         return TempCursor
+    }
+
+    fun modificarInsignia(nombre: String, imagen: String): Int {
+
+        val args = arrayOf(nombre)
+
+        val datos = ContentValues()
+        datos.put("imagen",imagen)
+
+
+        val db = this.writableDatabase
+        return db.update("INSIGNIAS",datos,"nombre = ?", arrayOf(nombre))
+
+        db.close()
+
+    }
+
+
+    override fun onCreate(db: SQLiteDatabase?) {
+
+        db?.execSQL("CREATE TABLE Persons (\n" +
+                "    PersonID int,\n" +
+                "    LastName varchar(255),\n" +
+                "    FirstName varchar(255),\n" +
+                "    Address varchar(255),\n" +
+                "    City varchar(255)\n" +
+                ");")
+    }
+
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+
     }
 
 }
