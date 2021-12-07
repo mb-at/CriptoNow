@@ -33,7 +33,7 @@
                     android:id="@+id/textoBlockChain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:fontFamily="serif"
                     android:text="@string/blockchain"
                     android:textColor="@color/black"
@@ -43,9 +43,10 @@
                 <ImageView
                     android:id="@+id/imagenBlockChain"
                     android:layout_width="120dp"
+                    android:contentDescription="@null"
                     android:layout_height="120dp"
                     android:layout_below="@+id/textoBlockChain"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="-10dp"
                     android:src="@drawable/blockchain" />
 
@@ -54,30 +55,32 @@
                     android:layout_width="150dp"
                     android:layout_height="37dp"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginTop="40dp"
-                    android:layout_toRightOf="@+id/imagenBlockChain"
+                    android:layout_toEndOf="@+id/imagenBlockChain"
                     android:backgroundTint="@color/black"
-                    android:text="preguntados"
-                    android:textSize="10dp" />
+                    android:text="@string/preguntados"
+                    android:textSize="10sp" />
 
                 <Button
+                    android:id="@+id/erroresBlockchain"
                     android:layout_width="150dp"
                     android:layout_height="37dp"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginTop="75dp"
-                    android:layout_toRightOf="@id/imagenBlockChain"
+                    android:layout_toEndOf="@id/imagenBlockChain"
                     android:backgroundTint="@color/black"
-                    android:text="AHORCADO"
-                    android:textSize="10dp" />
+                    android:text="@string/errores"
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/opcionesBlockChain"
+                    android:contentDescription="@null"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="175dp"
-                    android:layout_toRightOf="@id/textoBlockChain"
+                    android:layout_marginStart="185dp"
+                    android:layout_toEndOf="@id/textoBlockChain"
                     android:src="@drawable/options" />
 
             </RelativeLayout>
@@ -86,7 +89,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="45dp"
             app:cardBackgroundColor="#daa520"
             app:cardCornerRadius="24dp">
 
@@ -99,7 +102,7 @@
                     android:id="@+id/textoCriptoActivos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginStart="0dp"
                     android:fontFamily="serif"
                     android:text="@string/criptoassets"
                     android:textColor="@color/black"
@@ -109,9 +112,10 @@
                 <ImageView
                     android:id="@+id/imagenCriptoActivos"
                     android:layout_width="120dp"
+                    android:contentDescription="@null"
                     android:layout_height="120dp"
                     android:layout_below="@+id/textoCriptoActivos"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="-10dp"
                     android:src="@drawable/blockchain" />
 
@@ -120,30 +124,32 @@
                     android:layout_width="150dp"
                     android:layout_height="37dp"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginTop="40dp"
-                    android:layout_toRightOf="@+id/imagenCriptoActivos"
+                    android:layout_toEndOf="@+id/imagenCriptoActivos"
                     android:backgroundTint="@color/black"
-                    android:text="preguntados"
-                    android:textSize="10dp" />
+                    android:text="@string/preguntados"
+                    android:textSize="10sp" />
 
                 <Button
+                    android:id="@+id/erroresCriptoactivos"
                     android:layout_width="150dp"
                     android:layout_height="37dp"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginTop="75dp"
-                    android:layout_toRightOf="@id/imagenCriptoActivos"
+                    android:layout_toEndOf="@id/imagenCriptoActivos"
                     android:backgroundTint="@color/black"
-                    android:text="AHORCADO"
-                    android:textSize="10dp" />
+                    android:text="@string/errores"
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/opcionesCriptoActivos"
+                    android:contentDescription="@null"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="155dp"
-                    android:layout_toRightOf="@id/textoCriptoActivos"
+                    android:layout_marginStart="180dp"
+                    android:layout_toEndOf="@id/textoCriptoActivos"
                     android:src="@drawable/options" />
 
             </RelativeLayout>
@@ -152,7 +158,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="45dp"
             app:cardBackgroundColor="#daa520"
             app:cardCornerRadius="24dp">
 
@@ -165,7 +171,7 @@
                     android:id="@+id/textoNfts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="45dp"
+                    android:layout_marginStart="45dp"
                     android:fontFamily="serif"
                     android:text="@string/nfts"
                     android:textColor="@color/black"
@@ -175,9 +181,10 @@
                 <ImageView
                     android:id="@+id/imagenNfts"
                     android:layout_width="120dp"
+                    android:contentDescription="@null"
                     android:layout_height="120dp"
                     android:layout_below="@+id/textoNfts"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="-10dp"
                     android:src="@drawable/blockchain" />
 
@@ -186,30 +193,32 @@
                     android:layout_width="150dp"
                     android:layout_height="37dp"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginTop="40dp"
-                    android:layout_toRightOf="@+id/imagenNfts"
+                    android:layout_toEndOf="@+id/imagenNfts"
                     android:backgroundTint="@color/black"
-                    android:text="preguntados"
-                    android:textSize="10dp" />
+                    android:text="@string/preguntados"
+                    android:textSize="10sp" />
 
                 <Button
+                    android:id="@+id/erroresNfts"
                     android:layout_width="150dp"
                     android:layout_height="37dp"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginTop="75dp"
-                    android:layout_toRightOf="@id/imagenNfts"
+                    android:layout_toEndOf="@id/imagenNfts"
                     android:backgroundTint="@color/black"
-                    android:text="AHORCADO"
-                    android:textSize="10dp" />
+                    android:text="@string/errores"
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/opcionesNfts"
+                    android:contentDescription="@null"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="205dp"
-                    android:layout_toRightOf="@id/textoNfts"
+                    android:layout_marginStart="220dp"
+                    android:layout_toEndOf="@id/textoNfts"
                     android:src="@drawable/options" />
 
             </RelativeLayout>

@@ -4,10 +4,10 @@
 
     <item android:drawable="@color/black"/>
     <item
-        android:left="40dp"
-        android:right="40dp"
-        android:top="200dp"
-        android:bottom="200dp"
+        android:left="20dp"
+        android:right="20dp"
+        android:top="150dp"
+        android:bottom="150dp"
         >
         <bitmap android:src="@drawable/shiba"/>
     </item>

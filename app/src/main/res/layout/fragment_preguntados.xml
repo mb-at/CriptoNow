@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Pregunta de cripto"
+            android:text="@string/pregunta"
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold" />
@@ -35,40 +35,40 @@
         <Button
             android:id="@+id/respuestaPreguntados1"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="75dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="#966919"
-            android:text="Respuesta1"
+            android:text="@string/respuesta"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
         <Button
             android:id="@+id/respuestaPreguntados2"
             android:layout_width="match_parent"
-            android:layout_height="57dp"
+            android:layout_height="75dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="#966919"
-            android:text="Respuesta2"
+            android:text="@string/respuesta"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
         <Button
             android:id="@+id/respuestaPreguntados3"
             android:layout_width="match_parent"
-            android:layout_height="57dp"
+            android:layout_height="75dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="#966919"
-            android:text="Respuesta3"
+            android:text="@string/respuesta"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
         <Button
             android:id="@+id/respuestaPreguntados4"
             android:layout_width="match_parent"
-            android:layout_height="57dp"
+            android:layout_height="75dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="#966919"
-            android:text="Respuesta4"
+            android:text="@string/respuesta"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
@@ -81,6 +81,7 @@
 
             <ImageView
                 android:id="@+id/pistaPreguntados"
+                android:contentDescription="@null"
                 android:layout_width="55dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -90,20 +91,20 @@
                 android:id="@+id/anteriorPreguntados"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginLeft="150dp"
-                android:layout_marginRight="10dp"
+                android:layout_gravity="end"
+                android:layout_marginStart="150dp"
+                android:layout_marginEnd="10dp"
                 android:backgroundTint="@color/black"
-                android:text="back"
+                android:text="@string/atras"
                 android:textColor="#9b9b9b" />
 
             <Button
                 android:id="@+id/siguientePreguntados"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:backgroundTint="@color/black"
-                android:text=">>"
+                android:text="@string/siguiente"
                 android:textColor="#9b9b9b" />
 
         </LinearLayout>
@@ -126,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Salir"
+                android:text="@string/salir"
                 android:backgroundTint="@color/black"/>
         </LinearLayout>
 

@@ -1,16 +1,25 @@
 <resources>
     <string name="app_name">CriptoNow</string>
     <string name="prefs_file">credencialesUsuario</string>
+    <string name="profile_data">datosPerfil</string>
     <string name="blockchain">BLOCKCHAIN</string>
-    <string name="criptoassets">CRIPTOACTIVOS</string>
+    <string name="criptoassets">CRIPTOASSETS</string>
     <string name="nfts">NFTS</string>
-    <string name="logout">Cerrar sesión</string>
-    <string name="badges">Insignias</string>
-    <string name="profile">Perfil</string>
+    <string name="logout">log out</string>
+    <string name="badges">badges</string>
+    <string name="profile">profile</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="errores">errores</string>
+    <string name="pregunta">Pregunta cripto</string>
+    <string name="preguntados">preguntados</string>
+    <string name="respuesta">respuesta</string>
+    <string name="atras">back</string>
+    <string name="salir">exit</string>
+    <string name="siguiente">>></string>
+    <string name="editar">edit</string>
+    <string name="guardar">save</string>
 
 
 </resources>

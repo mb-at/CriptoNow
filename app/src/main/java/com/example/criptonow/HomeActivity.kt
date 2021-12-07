@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
@@ -40,9 +41,9 @@ class HomeActivity : AppCompatActivity(){
         prefs.apply()
 
         //Instanciamos los fragments para poder operar con ellos
-        var badgesFragment = BadgesFragment()
-        var profileFragment = ProfileFragment()
-        var criptoNowFragment = CriptoNowFragment()
+        val badgesFragment = BadgesFragment()
+        val profileFragment = ProfileFragment()
+        val criptoNowFragment = CriptoNowFragment()
 
         bottomNavigationView.setOnNavigationItemSelectedListener{
             when(it.itemId){

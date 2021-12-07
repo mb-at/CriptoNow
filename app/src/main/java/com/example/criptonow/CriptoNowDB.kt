@@ -15,12 +15,11 @@ import java.io.FileOutputStream
 import java.lang.Exception
 import java.sql.SQLException
 
-class CriptoNowDB(val context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION){
+class CriptoNowDB(val context: Context){
     /*Clase que gestiona la base de datos interna de la aplicación*/
 
     companion object{
         private val DB_NAME = "criptonowdb.db"
-        private val DB_VERSION = 1
     }
 
     fun openDatabase(): SQLiteDatabase {
@@ -60,7 +59,7 @@ class CriptoNowDB(val context: Context): SQLiteOpenHelper(context, DB_NAME, null
     }
 
     @Throws(SQLException::class)
-    fun FireQuery(query: String): Cursor? {
+    fun getDatabaseRow(query: String): Cursor? {
 
         var TempCursor: Cursor? = null
         val database = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null)
@@ -85,37 +84,6 @@ class CriptoNowDB(val context: Context): SQLiteOpenHelper(context, DB_NAME, null
         }
 
         return TempCursor
-    }
-
-    fun modificarInsignia(nombre: String, imagen: String): Int {
-
-        val args = arrayOf(nombre)
-
-        val datos = ContentValues()
-        datos.put("imagen",imagen)
-
-
-        val db = this.writableDatabase
-        return db.update("INSIGNIAS",datos,"nombre = ?", arrayOf(nombre))
-
-        db.close()
-
-    }
-
-
-    override fun onCreate(db: SQLiteDatabase?) {
-
-        db?.execSQL("CREATE TABLE Persons (\n" +
-                "    PersonID int,\n" +
-                "    LastName varchar(255),\n" +
-                "    FirstName varchar(255),\n" +
-                "    Address varchar(255),\n" +
-                "    City varchar(255)\n" +
-                ");")
-    }
-
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-
     }
 
 }

@@ -20,42 +20,46 @@
         android:background="#fece2f">
 
         <ImageView
+            android:id="@+id/opcionesProfile"
             android:layout_width="25dp"
+            android:contentDescription="@null"
             android:layout_height="25dp"
-            android:layout_marginLeft="335dp"
+            android:layout_marginStart="355dp"
             android:src="@drawable/options" />
 
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="90dp"
+            android:contentDescription="ProfileImage"
             android:layout_height="90dp"
             android:src="@drawable/shiba"
             android:layout_centerVertical="true"/>
 
         <TextView
-            android:id="@+id/full_name"
+            android:id="@+id/profileBigName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="65dp"
-            android:layout_toRightOf="@+id/profile_image"
+            android:layout_toEndOf="@+id/profile_image"
             android:fontFamily="sans-serif"
             android:includeFontPadding="false"
-            android:text="Mario Benito Agra Taboada"
+            android:text="Name"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/profileEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/full_name"
-            android:layout_marginLeft="14dp"
+            android:layout_below="@+id/profileBigName"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="4dp"
-            android:layout_toRightOf="@+id/profile_image"
+            android:layout_toEndOf="@+id/profile_image"
             android:fontFamily="sans-serif"
             android:includeFontPadding="false"
-            android:text="magrataboada@gmail.com"
+            android:text="email"
             android:textSize="17sp" />
 
 
@@ -65,7 +69,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:layout_marginTop="-65dp">
+        android:background="#fece2f"
+        android:layout_marginTop="-55dp">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
@@ -83,28 +88,28 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="32dp"
+                    android:contentDescription="@null"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/question" />
 
                 <TextView
-                    android:id="@+id/payment_label"
+                    android:id="@+id/clues"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25"
                     android:fontFamily="serif"
                     android:includeFontPadding="false"
                     android:textSize="20sp"
-                    android:layout_below="@id/payment_label"
+                    android:layout_below="@id/clues"
                     android:layout_centerInParent="true"/>
 
                 <TextView
-                    android:id="@+id/payment_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
                     android:text="Pistas restantes"
                     android:textSize="14sp"
-                    android:layout_below="@id/payment_label"
+                    android:layout_below="@id/clues"
                     android:layout_centerHorizontal="true"/>
             </RelativeLayout>
 
@@ -130,10 +135,10 @@
                     android:layout_centerHorizontal="true"/>
 
                 <TextView
-                    android:id="@+id/booking_label"
+                    android:id="@+id/badges"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12"
+                    android:text="0"
                     android:fontFamily="serif"
                     android:includeFontPadding="false"
                     android:textSize="20sp"
@@ -146,7 +151,7 @@
                     android:includeFontPadding="false"
                     android:text="Insignias conseguidas"
                     android:textSize="14sp"
-                    android:layout_below="@id/booking_label"
+                    android:layout_below="@id/badges"
                     android:layout_centerHorizontal="true"/>
             </RelativeLayout>
 
@@ -158,18 +163,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
+        android:background="#fece2f"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Full name"
+            android:hint="Nombre y Apellidos"
             android:layout_marginBottom="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profileName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Mario Agra"/>
+                android:text="Your name"/>
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -181,9 +188,10 @@
             android:layout_marginBottom="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profileCripto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ethereum"/>
+                android:text="Your favorite cripto"/>
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -195,9 +203,10 @@
             android:layout_marginBottom="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profileExchange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Binance"/>
+                android:text="Your favorite exchange"/>
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -209,10 +218,10 @@
             android:layout_marginBottom="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profileYear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2020"/>
-
+                android:text="Year"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -223,17 +232,31 @@
             android:layout_marginBottom="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profileWhy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por la pasión por la tecnología y las finanzas"/>
+                android:text="..."/>
 
 
         </com.google.android.material.textfield.TextInputLayout>
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fece2f"
+        android:orientation="horizontal">
+
         <Button
+            android:id="@+id/saveProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Actualizar"/>
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/black"
+            android:text="@string/guardar" />
 
     </LinearLayout>
 

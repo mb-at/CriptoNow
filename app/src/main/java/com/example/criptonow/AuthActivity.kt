@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_auth.*
 class AuthActivity : AppCompatActivity() {
 
     private val GOOGLE_SIGN_IN = 100
+    private var db: CriptoNowDB?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,7 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        db = CriptoNowDB(this)
         authLayout.visibility = View.VISIBLE
     }
 
