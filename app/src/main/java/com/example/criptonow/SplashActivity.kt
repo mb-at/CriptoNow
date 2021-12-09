@@ -12,7 +12,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = CriptoNowDB(this)
-        //Abrimos la base de datos
+        //Abrimos la base de datos para que esté disponible para hacer operaciones
         db?.openDatabase()
 
         //Una vez que llega a esta activity, inicia la siguiente actividad

@@ -63,7 +63,6 @@ class CriptoNowFragment: Fragment() {
 
             Log.d("PreguntasNfts","${pregunta.pregunta}")
         }*/
-        //Log.d("PreguntasBlockchain","$listaBlockchain")
         //Log.d("PreguntasBlockchain","El tamaño de la lista de blockchain es $sizeBlockchain")
 
         /*val listaCriptoactivos = getQuestionsState("preguntasCriptoactivos.bin")
@@ -71,17 +70,16 @@ class CriptoNowFragment: Fragment() {
         for(pregunta in listaCriptoactivos){
 
             Log.d("PreguntasNfts","${pregunta.pregunta}")
-        }
-        //Log.d("PreguntasCriptoactivos","$listaCriptoactivos")
-        Log.d("PreguntasCriptoactivos","El tamaño de la lista de criptoactivos es $sizeCriptoactivos")*/
+        }*/
+        //Log.d("PreguntasCriptoactivos","El tamaño de la lista de criptoactivos es $sizeCriptoactivos")
 
         /*val listaNfts = getQuestionsState("preguntasNfts.bin")
         val sizeNfts = listaNfts.size
         for(pregunta in listaNfts){
 
             Log.d("PreguntasNfts","${pregunta.pregunta}")
-        }
-        Log.d("PreguntasNfts","El tamaño de la lista de nfts es $sizeNfts")*/
+        }*/
+        //Log.d("PreguntasNfts","El tamaño de la lista de nfts es $sizeNfts")
 
 
         val preguntados = PreguntadosFragment()
@@ -133,7 +131,7 @@ class CriptoNowFragment: Fragment() {
         opcionesBlockChain.setOnClickListener{
 
             //Instanciamos un array con las opciones que le damos al usuario
-            val options = arrayOf("ÚLTIMAS NOTICIAS","RECOMENDACIONES DE INVERSIÓN 2022")
+            val options = arrayOf("ÚLTIMAS NOTICIAS DE BLOCKCHAIN","RECOMENDACIONES DE INVERSIÓN 2022")
 
             //Creamos el diálogo de opciones para el perfil
             val blockchainOptions = AlertDialog.Builder(context)
@@ -164,14 +162,14 @@ class CriptoNowFragment: Fragment() {
         opcionesCriptoActivos.setOnClickListener{
 
             //Instanciamos un array con las opciones que le damos al usuario
-            val options = arrayOf("ÚLTIMAS NOTICIAS","RECOMENDACIONES DE INVERSIÓN 2022")
+            val options = arrayOf("ÚLTIMAS NOTICIAS CRIPTO","RECOMENDACIONES DE INVERSIÓN 2022")
 
             //Creamos el diálogo de opciones para el perfil
             val criptoOptions = AlertDialog.Builder(context)
                     .setTitle("Opciones de criptoactivos")
                     .setSingleChoiceItems(options, 0) {_, i ->
 
-                        if (options[i] == "ÚLTIMAS NOTICIAS"){
+                        if (options[i] == "ÚLTIMAS NOTICIAS CRIPTO"){
 
                             //Vamos a Binance con referencia
                             Toast.makeText(context, "Vamos a noticias", Toast.LENGTH_SHORT).show()
@@ -195,7 +193,7 @@ class CriptoNowFragment: Fragment() {
         opcionesNfts.setOnClickListener{
 
             //Instanciamos un array con las opciones que le damos al usuario
-            val options = arrayOf("ÚLTIMAS NOTICIAS","RECOMENDACIONES DE INVERSIÓN 2022")
+            val options = arrayOf("ÚLTIMAS NOTICIAS DE NFTS","RECOMENDACIONES DE INVERSIÓN 2022")
 
             //Creamos el diálogo de opciones para el perfil
             val nftOptions = AlertDialog.Builder(context)

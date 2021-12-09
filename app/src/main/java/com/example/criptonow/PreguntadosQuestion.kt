@@ -14,6 +14,8 @@ data class PreguntadosQuestion(val pregunta: String = "",
                                val categoria: String = "",
                                val proyecto: String = "",
                                var contestada: Int = 0,
-                               var acertada: Int = 0): Serializable{
+                               var acertada: Int = 0,
+                               var indice: Int = 0, //Guarda el índice de la pregunta en la lista
+                               var indiceRespuestaCorrecta: String = ""): Serializable{
 
 }

@@ -43,7 +43,10 @@ class PreguntadosFragment : Fragment() {
     private var db: CriptoNowDB? = null
 
 
+
     companion object {
+
+        private var pregunta = PreguntadosQuestion()
 
         //Array que contiene los elementos que forman una pregunta => pos0=pregunta, pos1=ricorrecta1,
         // pos2=rincorrecta2, pos3=rincorrecta3, pos4=rcorrecta, pos5=indice de la respuesta correcta pos6= respuestaseleccionada
@@ -58,8 +61,8 @@ class PreguntadosFragment : Fragment() {
         //ArrayList que guarda las posiciones de las respuestas marcadas por el usuario
         var selected: Array<String> = arrayOf("","","","","")
 
-        //ArrayList que guarda las posiciones correctas de las preguntas
-        var correctas: Array<String> = arrayOf("1","1","1","1","1")
+        //ArrayList que guarda objetos de las preguntas con intención de establecer si están acertadas o no
+        var correctas: Array<PreguntadosQuestion> = arrayOf(pregunta, pregunta, pregunta, pregunta, pregunta)
 
         //Contador que almacena las respuestas correctas de cada partida
         var nrespuestasCorrectas: Int = 0
@@ -69,6 +72,7 @@ class PreguntadosFragment : Fragment() {
 
         //Variable donde se almacena el nombre de la categoría que se ha escogido
         var categoryPreguntados: String? = ""
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -80,9 +84,16 @@ class PreguntadosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //ESTO ES UNA PRUEBA QUE CARGA EL ESTADO DEL ARCHIVO DE CRIPTOACTIVOS DESPUÉS DE UNA MODIFICACIÓN: fUNCIONA :)
-        val estadoCriptoActivos = getQuestionsState("preguntasCriptoactivos.bin")
-        println("$estadoCriptoActivos")
+
+        //ESTO SON PRUEBAS QUE CARGA EL ESTADO DEL ARCHIVO DE CRIPTOACTIVOS DESPUÉS DE UNA MODIFICACIÓN: fUNCIONA :)
+        //val estadoCriptoActivos = getQuestionsState("preguntasCriptoactivos.bin")
+        //println("$estadoCriptoActivos")
+
+        //val estadoBlockchain = getQuestionsState("preguntasBlockchain.bin")
+        //println("$estadoBlockchain")
+
+        val estadoNfts = getQuestionsState("preguntasNfts.bin")
+        println("$estadoNfts")
 
         //Como ha empezado la partida el resultado está invisible
         resultadoPartida.visibility = View.INVISIBLE
@@ -110,7 +121,7 @@ class PreguntadosFragment : Fragment() {
             questionsList = getQuestionsState("preguntasNfts.bin")
         }
 
-        //Recuperamos los elementos necesarios para establecer la lógica del preguntados
+        //Recuperamos los elementos necesarios para establecer la lógica del preguntados, según si está contestada y o acertada
         setQuestion(listPosition)
 
         var pregunta = questionCounter.toString() + "-" +question[0]
@@ -126,30 +137,69 @@ class PreguntadosFragment : Fragment() {
         respuestaPreguntados1.setOnClickListener {
 
             selected[listPosition] = "1"
-            correctas[listPosition] = question[5]
+
+            //Instanciamos la pregunta de ese momento en una lista
+            val preg = questionsList[listPosition]
+
+            //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+            preg.indice = listPosition
+
+            //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+            preg.indiceRespuestaCorrecta = question[5]
+
+            //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+            correctas[listPosition] = preg
 
         }
         respuestaPreguntados2.setOnClickListener {
 
             selected[listPosition] = "2"
-            correctas[listPosition] = question[5]
+
+            //Instanciamos la pregunta de ese momento en una lista
+            val preg = questionsList[listPosition]
+
+            //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+            preg.indice = listPosition
+
+            //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+            preg.indiceRespuestaCorrecta = question[5]
+
+            //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+            correctas[listPosition] = preg
 
         }
         respuestaPreguntados3.setOnClickListener {
 
             selected[listPosition] = "3"
-            correctas[listPosition] = question[5]
 
+            //Instanciamos la pregunta de ese momento en una lista
+            val preg = questionsList[listPosition]
+
+            //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+            preg.indice = listPosition
+
+            //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+            preg.indiceRespuestaCorrecta = question[5]
+
+            //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+            correctas[listPosition] = preg
         }
         respuestaPreguntados4.setOnClickListener {
 
             selected[listPosition] = "4"
-            correctas[listPosition] = question[5]
 
+            //Instanciamos la pregunta de ese momento en una lista
+            val preg = questionsList[listPosition]
+
+            //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+            preg.indice = listPosition
+
+            //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+            preg.indiceRespuestaCorrecta = question[5]
+
+            //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+            correctas[listPosition] = preg
         }
-
-        //Cambiamos el estado de esa pregunta a contestada
-        //questionsList[listPosition].contestada = 1
 
 
         //LÓGICA DE BOTÓN DE SIGUIENTE
@@ -164,7 +214,7 @@ class PreguntadosFragment : Fragment() {
             listPosition += 1
             setQuestion(listPosition)
 
-            //Terminamos la partidas cuando se hayan completaddo las 5 preguntas
+            //TERMINAMOS LA PARTIDA CUANDO SE HAYAN COMPLETADO UN TOTAL DE 5 PREGUNTAS
             if(listPosition == 5){
 
                 //Invisivilizamos todos los elementos del preguntados
@@ -185,7 +235,7 @@ class PreguntadosFragment : Fragment() {
 
                 for(correcta in correctas){
 
-                    Log.d("Correctas", "$correcta")
+                    Log.d("Correctas", "${correcta.indiceRespuestaCorrecta}")
                 }
 
                 var cont=0
@@ -193,8 +243,13 @@ class PreguntadosFragment : Fragment() {
                 //Sumamos la respuestas correctas
                 for(correcta in correctas){
 
-                    if(selected[cont] == correcta){
+                    if(selected[cont] == correcta.indiceRespuestaCorrecta){
+
                         nrespuestasCorrectas += 1
+
+                        //Cambiamos a acertada el estado de la pregunta que tenga ese índice en la lista
+                        questionsList[correcta.indice].acertada = 1
+
                     }
                     cont+=1
                 }
@@ -236,28 +291,69 @@ class PreguntadosFragment : Fragment() {
             respuestaPreguntados1.setOnClickListener {
 
                 selected[listPosition] = "1"
-                correctas[listPosition] = question[5]
 
+                //Instanciamos la pregunta de ese momento en una lista
+                val preg = questionsList[listPosition]
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                preg.indice = listPosition
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                preg.indiceRespuestaCorrecta = question[5]
+
+                //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                correctas[listPosition] = preg
 
             }
             respuestaPreguntados2.setOnClickListener {
 
                 selected[listPosition] = "2"
-                correctas[listPosition] = question[5]
+
+                //Instanciamos la pregunta de ese momento en una lista
+                val preg = questionsList[listPosition]
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                preg.indice = listPosition
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                preg.indiceRespuestaCorrecta = question[5]
+
+                //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                correctas[listPosition] = preg
 
             }
             respuestaPreguntados3.setOnClickListener {
 
                 selected[listPosition] = "3"
-                correctas[listPosition] = question[5]
 
+                //Instanciamos la pregunta de ese momento en una lista
+                val preg = questionsList[listPosition]
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                preg.indice = listPosition
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                preg.indiceRespuestaCorrecta = question[5]
+
+                //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                correctas[listPosition] = preg
             }
             respuestaPreguntados4.setOnClickListener {
 
                 selected[listPosition] = "4"
-                correctas[listPosition] = question[5]
-            }
 
+                //Instanciamos la pregunta de ese momento en una lista
+                val preg = questionsList[listPosition]
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                preg.indice = listPosition
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                preg.indiceRespuestaCorrecta = question[5]
+
+                //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                correctas[listPosition] = preg
+            }
 
         }
 
@@ -319,6 +415,8 @@ class PreguntadosFragment : Fragment() {
 
         //Generamos un orden aleatorio para la colocación de las respuestas
         var randomOrder = getOrderPreguntados()
+
+        //AQUÍ HAY QUE HACER LA LÓGICA PARA QUE PREGUNTA PONER EN FUNCIÓN DE SI ESTÁ CONTESTADA O NO, Y ACERTADA O NO
 
         //Rellenamos el array necesario para establecer cada pregunta
         question.set(0, questionsList[listPosition].pregunta)

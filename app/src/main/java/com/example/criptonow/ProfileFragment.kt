@@ -50,13 +50,17 @@ class ProfileFragment: Fragment() {
 
                     if (options[i] == "Registrarme en Binance"){
 
-                        //Vamos a Binance con referencia
-                        Toast.makeText(context, "Binance", Toast.LENGTH_SHORT).show()
+                        val binanceRegister = Intent(Intent.ACTION_VIEW, Uri.parse("https://accounts.binance.com/es/register"))
+                        //Abrimos la pantalla de registro para Binance
+                        startActivity(binanceRegister)
                     }
                     else{
 
-                        //Vamos a coinbase con referencia
-                        Toast.makeText(context, "Coinbase", Toast.LENGTH_SHORT).show()
+
+                        val coinbaseRegister = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.coinbase.com/es/signup"))
+                        //Abrimos la pantalla de registro para CoinBase
+                        startActivity(coinbaseRegister)
+
                     }
 
                 }
