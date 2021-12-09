@@ -27,7 +27,7 @@ class ProfileFragment: Fragment() {
     private val yearK = "year"
     private val whyK = "why"
     private val badgesK = "badges"
-    private val cluesK = "clues"
+    private val cluesK = "numPistas"
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -38,7 +38,7 @@ class ProfileFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //Cargamos la información guardada en el perfil
-        loadProfileImage()
+        loadProfileData()
 
         //Instanciamos un array con las opciones que le damos al usuario
         val options = arrayOf("Registrarme en Binance","Registrarme en CoinBase")
@@ -93,7 +93,6 @@ class ProfileFragment: Fragment() {
                 putString(exchangeK, exchange)
                 putString(yearK,year)
                 putString(whyK,why)
-                putInt(cluesK, 25)
                 putInt(badgesK, 0)
             }?.apply()
 
@@ -103,11 +102,12 @@ class ProfileFragment: Fragment() {
 
     }
 
-    private fun loadProfileImage(){
+    private fun loadProfileData(){
 
         //Obtenemos los dos archivos de preferencias que generamos previamente
         val profilePrefs = activity?.getSharedPreferences(getString(R.string.profile_data),Context.MODE_PRIVATE)
         val userCredentials = activity?.getSharedPreferences(getString(R.string.prefs_file),Context.MODE_PRIVATE)
+        val cluesPref = requireActivity().getSharedPreferences(getString(R.string.cluesNumber),Context.MODE_PRIVATE)
 
         //Recuperamos los valores de esos archivos
         val name = profilePrefs?.getString(nameK,null)
@@ -116,19 +116,19 @@ class ProfileFragment: Fragment() {
         val year = profilePrefs?.getString(yearK,null)
         val why = profilePrefs?.getString(whyK,null)
         val email = userCredentials?.getString(emailK,null)
-        val cluesNumber = profilePrefs?.getInt(cluesK,0)
         val badgesNumber = profilePrefs?.getInt(badgesK,0)
+        val cluesNumber = cluesPref?.getInt(cluesK, 0)
 
         //Los establecemos en el perfil del usuario cuando recupere la sesión
         profileBigName.text = name
         profileEmail.text = email
-        clues.text = cluesNumber.toString()
         badges.text = badgesNumber.toString()
         profileName.setText(name)
         profileCripto.setText(cripto)
         profileExchange.setText(exchange)
         profileYear.setText(year)
         profileWhy.setText(why)
+        clues.setText(cluesNumber.toString())
 
     }
 

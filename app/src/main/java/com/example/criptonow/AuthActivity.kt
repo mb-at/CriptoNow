@@ -49,7 +49,7 @@ class AuthActivity : AppCompatActivity() {
 
         if(email != null && provider != null){
 
-            //En caso de no existir sesión ocultamos el layout de autenticación.
+            //En caso de existir datos de sesión, ocultamos el layout de identificación
             authLayout.visibility = View.INVISIBLE
 
             //Navegamos directamente a la pantalla de inicio.
@@ -66,7 +66,6 @@ class AuthActivity : AppCompatActivity() {
 
             if (emailEditText.text!!.isNotEmpty() && passwordEditText.text!!.isNotEmpty()){
 
-                //TODO: Validar que es un email correcto
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(
                     emailEditText.text.toString(),
                     passwordEditText.text.toString()
@@ -80,18 +79,18 @@ class AuthActivity : AppCompatActivity() {
                                 showHome(it.result?.user?.email?: "", ProviderType.BASIC)
                             }else{
 
+                                //Mostramos el mensaje de error
                                 showAlert()
                             }
                 }
             }
         }
 
-        //Establecemos escuchador del botón de registro
+        //Establecemos escuchador del botón de login
         logInButton.setOnClickListener{
 
             if (emailEditText.text!!.isNotEmpty() && passwordEditText.text!!.isNotEmpty()){
 
-                //TODO: Validar que es un email correcto
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(
                     emailEditText.text.toString(),
                     passwordEditText.text.toString()
@@ -107,6 +106,7 @@ class AuthActivity : AppCompatActivity() {
 
                     }else{
 
+                        //Mostramos el mensaje de error
                         showAlert()
                     }
                 }
@@ -129,7 +129,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun showAlert(){
-
+        /*Alerta que se muestra cuando se ha producido un error*/
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Error");
         builder.setMessage("Se ha producido un error")

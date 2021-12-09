@@ -28,6 +28,23 @@ class HomeActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+
+        /*-------------------------------------------------------------------------------------------------------------
+        DESCOMENTAMOS ESTAS LÍNEAS DE ABAJO PARA PODER GENERAR EL ARCHIVO CON LAS 25 PISTAS INICIALES EN EMULADOR NUEVO
+        Y LUEGO LAS VOLVEMOS A COMENTAR
+        TODOlATER:Encontrar manera de incluir esos archivos desde el principio
+       ----------------------------------------------------------------------------------------------------------------
+        */
+
+        //Obtenemos el preferenceManager para guardar el número de pistas que va a tener el usuario, empieza con 25
+        /*val clues = getSharedPreferences(getString(R.string.cluesNumber),Context.MODE_PRIVATE)
+        val editor = clues.edit()
+        editor?.apply {
+
+            //Guardamos el número de pistas del usuario
+            putInt("numPistas", 25)
+        }?.apply()*/
+
         //SetUp
         val bundle = intent.extras
         val email = bundle?.getString("email")

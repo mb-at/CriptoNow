@@ -41,12 +41,6 @@ class PreguntadosFragment : Fragment() {
 
     private val TAG = "PreguntadosFragment"
     private var db: CriptoNowDB? = null
-    private var categoryPreguntados: String? = ""
-
-    //Nombres de los archivos de las preguntas
-    private val BLOCKCHAINQUESTIONS = "preguntasBlockchain.bin"
-    private val CRIPTOQUESTIONS = "preguntasCripto.bin"
-    private val NFTSQUESTIONS = "preguntasNft.bin"
 
 
     companion object {
@@ -72,6 +66,9 @@ class PreguntadosFragment : Fragment() {
 
         //Variable donde se almacena la lista de preguntas sacada de la base de datos
         var questionsList: ArrayList<PreguntadosQuestion> = ArrayList()
+
+        //Variable donde se almacena el nombre de la categoría que se ha escogido
+        var categoryPreguntados: String? = ""
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -83,18 +80,18 @@ class PreguntadosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Mostramos el estado de las preguntas del archivo .bin
-        val amorfati = getQuestionsState("prueba.bin")
-        //println(amorfati)
+        //ESTO ES UNA PRUEBA QUE CARGA EL ESTADO DEL ARCHIVO DE CRIPTOACTIVOS DESPUÉS DE UNA MODIFICACIÓN: fUNCIONA :)
+        val estadoCriptoActivos = getQuestionsState("preguntasCriptoactivos.bin")
+        println("$estadoCriptoActivos")
 
         //Como ha empezado la partida el resultado está invisible
         resultadoPartida.visibility = View.INVISIBLE
 
+        //Empezamos desde la pregunta 1 por tanto no permitimos ir para atrás según carga el activity
         anteriorPreguntados.visibility = View.INVISIBLE
 
         //Recibimos la categoría deseada para el preguntados desde el otro fragment.
         categoryPreguntados = arguments?.getString("category")
-        Log.d(TAG, "$categoryPreguntados")
 
         //Instanciamos la base de datos con su contexto para poder usarla
         db = context?.let { CriptoNowDB(it) }
@@ -102,21 +99,22 @@ class PreguntadosFragment : Fragment() {
         //Evaluamos que categoría se ha escodigo para escoger el archivo y generar la lista
         if (categoryPreguntados.equals("criptoactivos")){
 
-            questionsList = getQuestionsState(CRIPTOQUESTIONS)
+           questionsList = getQuestionsState("preguntasCriptoactivos.bin")
         }
         if (categoryPreguntados.equals("blockchain")){
 
-            questionsList = getQuestionsState(BLOCKCHAINQUESTIONS)
+            questionsList = getQuestionsState("preguntasBlockchain.bin")
         }
         if (categoryPreguntados.equals("nfts")){
 
-            questionsList = getQuestionsState(NFTSQUESTIONS)
+            questionsList = getQuestionsState("preguntasNfts.bin")
         }
 
         //Recuperamos los elementos necesarios para establecer la lógica del preguntados
         setQuestion(listPosition)
 
         var pregunta = questionCounter.toString() + "-" +question[0]
+
         //Establecemos las preguntas en los textView
         preguntaPreguntados.setText(pregunta)
         respuestaPreguntados1.setText(question[1])
@@ -209,8 +207,21 @@ class PreguntadosFragment : Fragment() {
                 selected = arrayOf("","","","","")
 
 
-                //VOLVEMOS A REESCRIBIR EL ESTADO DE LAS PREGUNTAS CON LAS QUE HAN SIDO CONTESTADAS
-                //persistQuestionsState("prueba.bin", questionsList)
+                Log.d("Categoría seleccionada","$categoryPreguntados")
+
+                //VOLVEMOS A REESCRIBIR EL ESTADO DE LAS PREGUNTAS CON LAS MODIFICACIONES QUE SE HAN HECHO DURANTE LA PARTIDA
+                if (categoryPreguntados.equals("criptoactivos")){
+
+                    persistQuestionsState("preguntasCriptoactivos.bin", questionsList)
+                }
+                if (categoryPreguntados.equals("blockchain")){
+
+                    persistQuestionsState("preguntasBlockchain.bin", questionsList)
+                }
+                if (categoryPreguntados.equals("nfts")){
+
+                    persistQuestionsState("preguntasNfts.bin", questionsList)
+                }
 
             }
 
@@ -278,6 +289,7 @@ class PreguntadosFragment : Fragment() {
         //LÓGICA DE BOTÓN DE PEDIR PISTA
         pistaPreguntados.setOnClickListener {
 
+            //Ejecutamos el diálogo y funcionalidad de la pista
             cluesDialog()
         }
 
@@ -371,6 +383,25 @@ class PreguntadosFragment : Fragment() {
                 respuestaPreguntados4.setText("Esta no es :)")
             }
 
+            //Obtenemos el archivo de pistas
+            val cluesPref = requireActivity().getSharedPreferences(getString(R.string.cluesNumber),Context.MODE_PRIVATE)
+
+            //Obtenemos el número de pistas actual para restarle 1, ya que se ha gastado la pista
+            var cluesNumber = cluesPref.getInt("numPistas", 0)
+
+            //Se lo restamos
+            cluesNumber -= 1
+
+            val editor = cluesPref.edit()
+            editor?.apply {
+
+                //Guardamos en el archivo de pistas el valor con el número modificado por la pista gastada
+                putInt("numPistas", cluesNumber)
+
+            }?.apply()
+
+            Log.d(TAG, "Se ha gastado una pista")
+
         })
 
         builder?.setNegativeButton("Back") { dialog, which ->
@@ -382,71 +413,6 @@ class PreguntadosFragment : Fragment() {
         alertDialog?.show()
 
     }
-
-
-    fun fillQuestionsList(categoria: String){
-        /*Método únicamente utilizado para volcar los datos de la base de datos
-        * a los distintos archivos binario según categorías*/
-
-        try {
-
-            val sqlQuery = "SELECT * FROM CRIPTOPREGUNTAS WHERE categoria = '$categoria'"
-            db?.getDatabaseRow(sqlQuery)?.use {
-
-                if (it.count > 0) {
-
-                    do {
-                        /*Extraemos los datos de la fila de la base de datos*/
-                        val col = it.getColumnIndex("pregunta")
-                        val preg = it.getString(col)
-
-                        val col2 = it.getColumnIndex("rincorrecta1")
-                        val rincorrecta1 = it.getString(col2)
-
-                        val col3 = it.getColumnIndex("rincorrecta2")
-                        val rincorrecta2 = it.getString(col3)
-
-                        val col4 = it.getColumnIndex("rincorrecta3")
-                        val rincorrecta3 = it.getString(col4)
-
-                        val col5 = it.getColumnIndex("rcorrecta")
-                        val rcorrecta = it.getString(col5)
-
-                        val col6 = it.getColumnIndex("categoria")
-                        val categoria = it.getString(col6)
-
-                        val col7 = it.getColumnIndex("proyecto")
-                        val proyecto = it.getString(col7)
-
-                        val col8 = it.getColumnIndex("contestada")
-                        val contestada = it.getString(col8)
-
-                        val col9 = it.getColumnIndex("acertada")
-                        val acertada = it.getString(col9)
-
-
-                        //Rellenamso el objeto de tipo pregunta
-                        //val pregunta = PreguntadosQuestion(preg, rincorrecta1, rincorrecta2, rincorrecta3, rcorrecta, categoria, proyecto, contestada.toInt(), acertada.toInt())
-
-                        //la añadimos a la lista
-                        //questionList.add(pregunta)
-
-
-                    } while (it.moveToNext())
-
-                }
-            }
-
-        } catch (e: Exception) {
-
-            println("No hay más preguntas")
-            e.printStackTrace()
-        }
-
-        //Guardamos la lista de preguntas en el archivo
-        //persistQuestions(BLOCKCHAINQUESTIONS ,questionList)
-    }
-
 
     fun persistQuestionsState(fileName: String, lista: ArrayList<PreguntadosQuestion>) {
         /**Método utilizado para generar y actualizar el archivo de objetos pregunta en memoria interna,
@@ -464,7 +430,7 @@ class PreguntadosFragment : Fragment() {
 
         var objeto: ArrayList<PreguntadosQuestion> = arrayListOf()
         val file = File(context?.filesDir, fileName)
-        println(file.absolutePath)
+        //println(file.absolutePath)
 
         ObjectInputStream(FileInputStream(file)).use { it ->
             //Read the family back from the file

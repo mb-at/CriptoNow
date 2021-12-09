@@ -44,7 +44,7 @@ class BadgesFragment : Fragment() {
         db = context?.let { CriptoNowDB(it) }
 
         //Leemos el estado del archivo de preguntas para ver si podemos desbloquear alguna insignia
-        println(getStateQuestions())
+       // println(getStateQuestions())
 
     }
 

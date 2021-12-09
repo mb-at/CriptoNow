@@ -20,6 +20,9 @@
     <string name="siguiente">>></string>
     <string name="editar">edit</string>
     <string name="guardar">save</string>
+    <string name="sendEmail">send Email</string>
+    <string name="cluesNumber">numeroDePistas</string>
+
 
 
 </resources>
