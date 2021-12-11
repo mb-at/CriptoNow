@@ -33,6 +33,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.IndexOutOfBoundsException
 
 
 class PreguntadosFragment : Fragment() {
@@ -59,10 +60,18 @@ class PreguntadosFragment : Fragment() {
         var questionCounter = 1
 
         //ArrayList que guarda las posiciones de las respuestas marcadas por el usuario
-        var selected: Array<String> = arrayOf("","","","","")
+        var selected: Array<String> = arrayOf("","","","","","","","","","",
+                                                "","","","","","","","","","",
+                                                "","","","","","","","","","",
+                                                "","","","","","","","","","",
+                                                "","","","","","","","","","","")
 
         //ArrayList que guarda objetos de las preguntas con intención de establecer si están acertadas o no
-        var correctas: Array<PreguntadosQuestion> = arrayOf(pregunta, pregunta, pregunta, pregunta, pregunta)
+        var correctas: Array<PreguntadosQuestion> = arrayOf(pregunta, pregunta, pregunta, pregunta, pregunta,pregunta, pregunta, pregunta, pregunta, pregunta,
+                                                            pregunta, pregunta, pregunta, pregunta, pregunta,pregunta, pregunta, pregunta, pregunta, pregunta,
+                                                            pregunta, pregunta, pregunta, pregunta, pregunta,pregunta, pregunta, pregunta, pregunta, pregunta,
+                                                            pregunta, pregunta, pregunta, pregunta, pregunta,pregunta, pregunta, pregunta, pregunta, pregunta,
+                                                            pregunta, pregunta, pregunta, pregunta, pregunta,pregunta, pregunta, pregunta, pregunta, pregunta, pregunta)
 
         //Contador que almacena las respuestas correctas de cada partida
         var nrespuestasCorrectas: Int = 0
@@ -72,6 +81,9 @@ class PreguntadosFragment : Fragment() {
 
         //Variable donde se almacena el nombre de la categoría que se ha escogido
         var categoryPreguntados: String? = ""
+
+        //Variable donde se almacena el modo de juego que se ha escogido
+        var modoPreguntados: String? = ""
 
     }
 
@@ -86,14 +98,27 @@ class PreguntadosFragment : Fragment() {
 
 
         //ESTO SON PRUEBAS QUE CARGA EL ESTADO DEL ARCHIVO DE CRIPTOACTIVOS DESPUÉS DE UNA MODIFICACIÓN: fUNCIONA :)
-        //val estadoCriptoActivos = getQuestionsState("preguntasCriptoactivos.bin")
-        //println("$estadoCriptoActivos")
+        /*val estadoCriptoActivos = getQuestionsState("preguntasCriptoactivos.bin")
 
-        //val estadoBlockchain = getQuestionsState("preguntasBlockchain.bin")
-        //println("$estadoBlockchain")
+        for(pregunta in estadoCriptoActivos){
 
-        val estadoNfts = getQuestionsState("preguntasNfts.bin")
-        println("$estadoNfts")
+            println(pregunta)
+
+        }*/
+
+        /*val estadoBlockchain = getQuestionsState("preguntasBlockchain.bin")
+        for (pregunta in estadoBlockchain){
+
+            println(pregunta)
+        }*/
+
+
+        /*val estadoNfts = getQuestionsState("preguntasNfts.bin")
+
+        for(pregunta in estadoNfts){
+
+            println(pregunta)
+        }*/
 
         //Como ha empezado la partida el resultado está invisible
         resultadoPartida.visibility = View.INVISIBLE
@@ -103,6 +128,9 @@ class PreguntadosFragment : Fragment() {
 
         //Recibimos la categoría deseada para el preguntados desde el otro fragment.
         categoryPreguntados = arguments?.getString("category")
+
+        //Recibimos el modo de juego deseado desde el otro fragment
+        modoPreguntados = arguments?.getString("modo")
 
         //Instanciamos la base de datos con su contexto para poder usarla
         db = context?.let { CriptoNowDB(it) }
@@ -121,7 +149,29 @@ class PreguntadosFragment : Fragment() {
             questionsList = getQuestionsState("preguntasNfts.bin")
         }
 
-        //Recuperamos los elementos necesarios para establecer la lógica del preguntados, según si está contestada y o acertada
+        //Recorremos la lista de preguntas escogida y evaluamos el atributo para ver si están ya contestadas
+        for (pregunta in questionsList) {
+
+            //Si es el modo normal y las preguntas ya están contestadas
+            if (modoPreguntados == null && pregunta.contestada == 1) {
+
+                //Log.d(TAG, "La pregunta con el índice ${pregunta.indice} de la categoría ${pregunta.categoria} ya ha sido contestada")
+
+                //Aumentamos la variable que gestiona la posición en la lista ya que esa no la vamos a mostrar
+                listPosition += 1
+
+            }
+
+            //Si es el usuario ha seleccionado el modo de errores y la pregunta no está acertada
+            if(modoPreguntados.equals("errores") && pregunta.acertada == 0) {
+
+                println("Estás en  modo de errores")
+            }
+
+
+        }
+
+        //Recuperamos los elementos necesarios para establecer la lógica del preguntados
         setQuestion(listPosition)
 
         var pregunta = questionCounter.toString() + "-" +question[0]
@@ -215,7 +265,7 @@ class PreguntadosFragment : Fragment() {
             setQuestion(listPosition)
 
             //TERMINAMOS LA PARTIDA CUANDO SE HAYAN COMPLETADO UN TOTAL DE 5 PREGUNTAS
-            if(listPosition == 5){
+            if(questionCounter == 6){
 
                 //Invisivilizamos todos los elementos del preguntados
                 preguntaPreguntados.visibility = View.INVISIBLE
@@ -243,7 +293,7 @@ class PreguntadosFragment : Fragment() {
                 //Sumamos la respuestas correctas
                 for(correcta in correctas){
 
-                    if(selected[cont] == correcta.indiceRespuestaCorrecta){
+                    if(selected[cont] == correcta.indiceRespuestaCorrecta && selected[cont] != ""){
 
                         nrespuestasCorrectas += 1
 
@@ -259,7 +309,11 @@ class PreguntadosFragment : Fragment() {
                 resultado.setText(score)
 
                 //Reseteamos a 0 el seleccionadas
-                selected = arrayOf("","","","","")
+                var selected: Array<String> = arrayOf("","","","","","","","","","",
+                                                      "","","","","","","","","","",
+                                                      "","","","","","","","","","",
+                                                      "","","","","","","","","","",
+                                                      "","","","","","","","","","","")
 
 
                 Log.d("Categoría seleccionada","$categoryPreguntados")
@@ -410,21 +464,38 @@ class PreguntadosFragment : Fragment() {
 
     }
 
-    fun setQuestion(listPosition: Int): Array<String> {
+    fun setQuestion(position: Int): Array<String> {
         /*Método que recupera los elementos necesarios para la lógica del preguntados*/
 
         //Generamos un orden aleatorio para la colocación de las respuestas
-        var randomOrder = getOrderPreguntados()
+        val randomOrder = getOrderPreguntados()
 
-        //AQUÍ HAY QUE HACER LA LÓGICA PARA QUE PREGUNTA PONER EN FUNCIÓN DE SI ESTÁ CONTESTADA O NO, Y ACERTADA O NO
+        try {
 
-        //Rellenamos el array necesario para establecer cada pregunta
-        question.set(0, questionsList[listPosition].pregunta)
-        question.set(randomOrder[0], questionsList[listPosition].rincorrecta1)
-        question.set(randomOrder[1], questionsList[listPosition].rincorrecta2)
-        question.set(randomOrder[2], questionsList[listPosition].rincorrecta3)
-        question.set(randomOrder[3], questionsList[listPosition].rcorrecta)
-        question.set(5, randomOrder[3].toString())
+            question.set(0, questionsList[position].pregunta)
+            question.set(randomOrder[0], questionsList[position].rincorrecta1)
+            question.set(randomOrder[1], questionsList[position].rincorrecta2)
+            question.set(randomOrder[2], questionsList[position].rincorrecta3)
+            question.set(randomOrder[3], questionsList[position].rcorrecta)
+            question.set(5, randomOrder[3].toString())
+
+        }catch (e: IndexOutOfBoundsException) {
+
+            //En el caso que no haya más preguntas para mostrar, avisamos al usuario con un mensaje por pantalla
+            Toast.makeText(activity, "No hay más preguntas para $categoryPreguntados en esta versión. Pronto vendrán nuevas preguntas :)", Toast.LENGTH_LONG).show()
+
+            println("No hay más preguntas")
+
+            //Volvemos al fragment de criptoNow
+            val criptoNowFragment = CriptoNowFragment()
+
+            parentFragmentManager.beginTransaction().apply {
+
+                replace(R.id.appfragments, criptoNowFragment)
+                commit()
+            }
+
+        }
 
         return question
     }
@@ -439,7 +510,7 @@ class PreguntadosFragment : Fragment() {
         return posicionesAleatorias
     }
 
-    private fun cluesDialog(){
+    fun cluesDialog(){
         /*Pregunta al usuario si quiere utilizar una pista, y la gasta en
         caso de que el usuario seleccione que si*/
 

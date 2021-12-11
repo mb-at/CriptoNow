@@ -2,6 +2,8 @@ package com.example.criptonow
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -61,7 +63,7 @@ class CriptoNowFragment: Fragment() {
         val sizeBlockchain = listaBlockchain.size
         for(pregunta in listaBlockchain){
 
-            Log.d("PreguntasNfts","${pregunta.pregunta}")
+            Log.d("PreguntasNfts","${pregunta.pregunta} : ${pregunta.acertada}, Contestada: ${pregunta.contestada}")
         }*/
         //Log.d("PreguntasBlockchain","El tamaño de la lista de blockchain es $sizeBlockchain")
 
@@ -69,17 +71,17 @@ class CriptoNowFragment: Fragment() {
         val sizeCriptoactivos = listaCriptoactivos.size
         for(pregunta in listaCriptoactivos){
 
-            Log.d("PreguntasNfts","${pregunta.pregunta}")
-        }*/
-        //Log.d("PreguntasCriptoactivos","El tamaño de la lista de criptoactivos es $sizeCriptoactivos")
+            Log.d("PreguntasNfts","${pregunta.pregunta}: ${pregunta.acertada}")
+        }
+        //Log.d("PreguntasCriptoactivos","El tamaño de la lista de criptoactivos es $sizeCriptoactivos")*/
 
         /*val listaNfts = getQuestionsState("preguntasNfts.bin")
         val sizeNfts = listaNfts.size
         for(pregunta in listaNfts){
 
-            Log.d("PreguntasNfts","${pregunta.pregunta}")
-        }*/
-        //Log.d("PreguntasNfts","El tamaño de la lista de nfts es $sizeNfts")
+            Log.d("PreguntasNfts","${pregunta.pregunta} : ${pregunta.acertada}, Contestada: ${pregunta.contestada}")
+        }
+        //Log.d("PreguntasNfts","El tamaño de la lista de nfts es $sizeNfts")*/
 
 
         val preguntados = PreguntadosFragment()
@@ -138,15 +140,15 @@ class CriptoNowFragment: Fragment() {
                     .setTitle("Opciones de blockchain")
                     .setSingleChoiceItems(options, 0) {_, i ->
 
-                        if (options[i] == "ÚLTIMAS NOTICIAS"){
+                        if (options[i] == "ÚLTIMAS NOTICIAS DE BLOCKCHAIN"){
 
-                            //Vamos a Binance con referencia
-                            Toast.makeText(context, "Vamos a noticias", Toast.LENGTH_SHORT).show()
+                            val noticiasBlockchain = Intent(Intent.ACTION_VIEW, Uri.parse("https://es.cointelegraph.com/tags/blockchain"))
+                            startActivity(noticiasBlockchain)
                         }
                         else{
 
-                            //Vamos a coinbase con referencia
-                            Toast.makeText(context, "Vamos a recomendaciones de inversión", Toast.LENGTH_SHORT).show()
+                            val inversionBlockchain = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.businessinsider.es/criptomonedas-pueden-subir-2022-945059"))
+                            startActivity(inversionBlockchain)
                         }
 
                     }
@@ -171,13 +173,13 @@ class CriptoNowFragment: Fragment() {
 
                         if (options[i] == "ÚLTIMAS NOTICIAS CRIPTO"){
 
-                            //Vamos a Binance con referencia
-                            Toast.makeText(context, "Vamos a noticias", Toast.LENGTH_SHORT).show()
+                            val noticiasCripto = Intent(Intent.ACTION_VIEW, Uri.parse("https://es.cointelegraph.com/tags/cryptocurrencies"))
+                            startActivity(noticiasCripto)
                         }
                         else{
 
-                            //Vamos a coinbase con referencia
-                            Toast.makeText(context, "Vamos a recomendaciones de inversión", Toast.LENGTH_SHORT).show()
+                            val inversionCripto = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.infotechnology.com/finanzas-digitales/las-6-criptomonedas-poco-conocidas-para-invertir-en-2022-y-ganar-en-dolares/"))
+                            startActivity(inversionCripto)
                         }
 
                     }
@@ -200,15 +202,15 @@ class CriptoNowFragment: Fragment() {
                     .setTitle("Opciones de Nfts")
                     .setSingleChoiceItems(options, 0) {_, i ->
 
-                        if (options[i] == "ÚLTIMAS NOTICIAS"){
+                        if (options[i] == "ÚLTIMAS NOTICIAS DE NFTS"){
 
-                            //Vamos a Binance con referencia
-                            Toast.makeText(context, "Vamos a noticias", Toast.LENGTH_SHORT).show()
+                            val noticiasNfts = Intent(Intent.ACTION_VIEW, Uri.parse("https://es.cointelegraph.com/tags/nft"))
+                            startActivity(noticiasNfts)
                         }
                         else{
 
-                            //Vamos a coinbase con referencia
-                            Toast.makeText(context, "Vamos a recomendaciones de inversión", Toast.LENGTH_SHORT).show()
+                            val inversionNfts = Intent(Intent.ACTION_VIEW, Uri.parse("https://cryptoshitcompra.com/los-10-mejores-proyectos-nft-para-invertir-en-2022"))
+                            startActivity(inversionNfts)
                         }
 
                     }
@@ -224,17 +226,56 @@ class CriptoNowFragment: Fragment() {
         //Ponemos a la escucha a los botones de errores
         erroresBlockchain.setOnClickListener {
 
+            //Enviamos la categoría elegida por el usuario
+            val bundle = Bundle()
+            bundle.putString("category", "blockchain")
 
+            //Enviamos el modo elegido por el usuario
+            bundle.putString("modo", "errores")
+            preguntados.arguments = bundle
+
+            parentFragmentManager.beginTransaction().apply {
+
+                replace(R.id.appfragments, preguntados)
+                commit()
+            }
         }
 
         erroresCriptoactivos.setOnClickListener {
 
+            //Enviamos la categoría elegida por el usuario
+            val bundle = Bundle()
+            bundle.putString("category", "criptoactivos")
+
+            //Enviamos el modo elegido por el usuario
+            bundle.putString("modo", "errores")
+
+            preguntados.arguments = bundle
+
+            parentFragmentManager.beginTransaction().apply {
+
+                replace(R.id.appfragments, preguntados)
+                commit()
+            }
 
         }
 
 
         erroresNfts.setOnClickListener {
 
+            //Enviamos la categoría elegida por el usuario
+            val bundle = Bundle()
+            bundle.putString("category", "nfts")
+
+            //Enviamos el modo elegido por el usuario
+            bundle.putString("modo", "errores")
+            preguntados.arguments = bundle
+
+            parentFragmentManager.beginTransaction().apply {
+
+                replace(R.id.appfragments, preguntados)
+                commit()
+            }
 
         }
     }
