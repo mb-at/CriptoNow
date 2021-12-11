@@ -1,39 +1,22 @@
 package com.example.criptonow
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.sax.EndElementListener
-import android.system.Os.remove
-import android.text.TextUtils.replace
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.example.criptonow.R.color.design_default_color_on_primary
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_preguntados.*
 import java.io.File
-import java.io.FileOutputStream
 import java.lang.Exception
-import java.util.*
-import java.util.Collections.swap
-import java.util.function.Predicate
 import kotlin.collections.ArrayList
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.IndexOutOfBoundsException
 
 
 class PreguntadosFragment : Fragment() {
@@ -42,7 +25,6 @@ class PreguntadosFragment : Fragment() {
 
     private val TAG = "PreguntadosFragment"
     private var db: CriptoNowDB? = null
-
 
 
     companion object {
@@ -60,18 +42,18 @@ class PreguntadosFragment : Fragment() {
         var questionCounter = 1
 
         //ArrayList que guarda las posiciones de las respuestas marcadas por el usuario
-        var selected: Array<String> = arrayOf("","","","","","","","","","",
-                                                "","","","","","","","","","",
-                                                "","","","","","","","","","",
-                                                "","","","","","","","","","",
-                                                "","","","","","","","","","","")
+        var selected: Array<String> = arrayOf("", "", "", "", "", "", "", "", "", "",
+                "", "", "", "", "", "", "", "", "", "",
+                "", "", "", "", "", "", "", "", "", "",
+                "", "", "", "", "", "", "", "", "", "",
+                "", "", "", "", "", "", "", "", "", "", "")
 
         //ArrayList que guarda objetos de las preguntas con intención de establecer si están acertadas o no
-        var correctas: Array<PreguntadosQuestion> = arrayOf(pregunta, pregunta, pregunta, pregunta, pregunta,pregunta, pregunta, pregunta, pregunta, pregunta,
-                                                            pregunta, pregunta, pregunta, pregunta, pregunta,pregunta, pregunta, pregunta, pregunta, pregunta,
-                                                            pregunta, pregunta, pregunta, pregunta, pregunta,pregunta, pregunta, pregunta, pregunta, pregunta,
-                                                            pregunta, pregunta, pregunta, pregunta, pregunta,pregunta, pregunta, pregunta, pregunta, pregunta,
-                                                            pregunta, pregunta, pregunta, pregunta, pregunta,pregunta, pregunta, pregunta, pregunta, pregunta, pregunta)
+        var correctas: Array<PreguntadosQuestion> = arrayOf(pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta,
+                pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta,
+                pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta,
+                pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta,
+                pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta, pregunta)
 
         //Contador que almacena las respuestas correctas de cada partida
         var nrespuestasCorrectas: Int = 0
@@ -85,6 +67,15 @@ class PreguntadosFragment : Fragment() {
         //Variable donde se almacena el modo de juego que se ha escogido
         var modoPreguntados: String? = ""
 
+        var indiceFalladas: ArrayList<Int> = arrayListOf()
+
+        //Variable que guarda las posiciones de las preguntas falladas
+        var aux: Array<Int> = arrayOf(0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0,0,0,0
+                ,0,0,0,0,0,0,0,0,0,0
+                ,0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0,0,0,0,0,0)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -95,30 +86,6 @@ class PreguntadosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        //ESTO SON PRUEBAS QUE CARGA EL ESTADO DEL ARCHIVO DE CRIPTOACTIVOS DESPUÉS DE UNA MODIFICACIÓN: fUNCIONA :)
-        /*val estadoCriptoActivos = getQuestionsState("preguntasCriptoactivos.bin")
-
-        for(pregunta in estadoCriptoActivos){
-
-            println(pregunta)
-
-        }*/
-
-        /*val estadoBlockchain = getQuestionsState("preguntasBlockchain.bin")
-        for (pregunta in estadoBlockchain){
-
-            println(pregunta)
-        }*/
-
-
-        /*val estadoNfts = getQuestionsState("preguntasNfts.bin")
-
-        for(pregunta in estadoNfts){
-
-            println(pregunta)
-        }*/
 
         //Como ha empezado la partida el resultado está invisible
         resultadoPartida.visibility = View.INVISIBLE
@@ -136,15 +103,15 @@ class PreguntadosFragment : Fragment() {
         db = context?.let { CriptoNowDB(it) }
 
         //Evaluamos que categoría se ha escodigo para escoger el archivo y generar la lista
-        if (categoryPreguntados.equals("criptoactivos")){
+        if (categoryPreguntados.equals("criptoactivos")) {
 
-           questionsList = getQuestionsState("preguntasCriptoactivos.bin")
+            questionsList = getQuestionsState("preguntasCriptoactivos.bin")
         }
-        if (categoryPreguntados.equals("blockchain")){
+        if (categoryPreguntados.equals("blockchain")) {
 
             questionsList = getQuestionsState("preguntasBlockchain.bin")
         }
-        if (categoryPreguntados.equals("nfts")){
+        if (categoryPreguntados.equals("nfts")) {
 
             questionsList = getQuestionsState("preguntasNfts.bin")
         }
@@ -152,6 +119,7 @@ class PreguntadosFragment : Fragment() {
         //Recorremos la lista de preguntas escogida y evaluamos el atributo para ver si están ya contestadas
         for (pregunta in questionsList) {
 
+            var indicePreguntaFallada = 0
             //Si es el modo normal y las preguntas ya están contestadas
             if (modoPreguntados == null && pregunta.contestada == 1) {
 
@@ -162,186 +130,35 @@ class PreguntadosFragment : Fragment() {
 
             }
 
-            //Si es el usuario ha seleccionado el modo de errores y la pregunta no está acertada
-            if(modoPreguntados.equals("errores") && pregunta.acertada == 0) {
+            //Si es el usuario ha seleccionado el modo de errores y la pregunta está contestada y no acertada
+            if (modoPreguntados.equals("errores")) {
 
-                println("Estás en  modo de errores")
+                if (pregunta.contestada == 1 && pregunta.acertada == 0) {
+
+                    indiceFalladas.add(pregunta.indice)
+
+                }
+
             }
-
-
-        }
-
-        //Recuperamos los elementos necesarios para establecer la lógica del preguntados
-        setQuestion(listPosition)
-
-        var pregunta = questionCounter.toString() + "-" +question[0]
-
-        //Establecemos las preguntas en los textView
-        preguntaPreguntados.setText(pregunta)
-        respuestaPreguntados1.setText(question[1])
-        respuestaPreguntados2.setText(question[2])
-        respuestaPreguntados3.setText(question[3])
-        respuestaPreguntados4.setText(question[4])
-
-        //Ponemos las respuesta a la escucha para ver si son clickadas o no.
-        respuestaPreguntados1.setOnClickListener {
-
-            selected[listPosition] = "1"
-
-            //Instanciamos la pregunta de ese momento en una lista
-            val preg = questionsList[listPosition]
-
-            //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
-            preg.indice = listPosition
-
-            //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
-            preg.indiceRespuestaCorrecta = question[5]
-
-            //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
-            correctas[listPosition] = preg
-
-        }
-        respuestaPreguntados2.setOnClickListener {
-
-            selected[listPosition] = "2"
-
-            //Instanciamos la pregunta de ese momento en una lista
-            val preg = questionsList[listPosition]
-
-            //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
-            preg.indice = listPosition
-
-            //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
-            preg.indiceRespuestaCorrecta = question[5]
-
-            //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
-            correctas[listPosition] = preg
-
-        }
-        respuestaPreguntados3.setOnClickListener {
-
-            selected[listPosition] = "3"
-
-            //Instanciamos la pregunta de ese momento en una lista
-            val preg = questionsList[listPosition]
-
-            //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
-            preg.indice = listPosition
-
-            //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
-            preg.indiceRespuestaCorrecta = question[5]
-
-            //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
-            correctas[listPosition] = preg
-        }
-        respuestaPreguntados4.setOnClickListener {
-
-            selected[listPosition] = "4"
-
-            //Instanciamos la pregunta de ese momento en una lista
-            val preg = questionsList[listPosition]
-
-            //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
-            preg.indice = listPosition
-
-            //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
-            preg.indiceRespuestaCorrecta = question[5]
-
-            //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
-            correctas[listPosition] = preg
         }
 
 
-        //LÓGICA DE BOTÓN DE SIGUIENTE
-        siguientePreguntados.setOnClickListener {
+        //Ejecutamos las preguntas normales sin errores
+        if (modoPreguntados == null) {
 
-            anteriorPreguntados.visibility = View.VISIBLE
-
-            //Cambiamos el estado de esa pregunta a contestada
-            questionsList[listPosition].contestada = 1
-
-            questionCounter += 1
-            listPosition += 1
+            //Recuperamos los elementos necesarios para establecer la lógica del preguntados
             setQuestion(listPosition)
 
-            //TERMINAMOS LA PARTIDA CUANDO SE HAYAN COMPLETADO UN TOTAL DE 5 PREGUNTAS
-            if(questionCounter == 6){
+            var pregunta = questionCounter.toString() + "-" + question[0]
 
-                //Invisivilizamos todos los elementos del preguntados
-                preguntaPreguntados.visibility = View.INVISIBLE
-                respuestaPreguntados1.visibility = View.INVISIBLE
-                respuestaPreguntados2.visibility = View.INVISIBLE
-                respuestaPreguntados3.visibility = View.INVISIBLE
-                respuestaPreguntados4.visibility = View.INVISIBLE
-                accionesPreguntados.visibility = View.INVISIBLE
-
-                //Hacemos visible el resultado que ha obtenido el usuario en la partida
-                resultadoPartida.visibility = View.VISIBLE
-
-                for(seleccionada in selected){
-
-                    Log.d("Seleccionadas", "$seleccionada")
-                }
-
-                for(correcta in correctas){
-
-                    Log.d("Correctas", "${correcta.indiceRespuestaCorrecta}")
-                }
-
-                var cont=0
-
-                //Sumamos la respuestas correctas
-                for(correcta in correctas){
-
-                    if(selected[cont] == correcta.indiceRespuestaCorrecta && selected[cont] != ""){
-
-                        nrespuestasCorrectas += 1
-
-                        //Cambiamos a acertada el estado de la pregunta que tenga ese índice en la lista
-                        questionsList[correcta.indice].acertada = 1
-
-                    }
-                    cont+=1
-                }
-
-                //Ponemos al usuario las respuesta correcta que ha obtenido
-                var score = "Has acertado $nrespuestasCorrectas/5 preguntas"
-                resultado.setText(score)
-
-                //Reseteamos a 0 el seleccionadas
-                var selected: Array<String> = arrayOf("","","","","","","","","","",
-                                                      "","","","","","","","","","",
-                                                      "","","","","","","","","","",
-                                                      "","","","","","","","","","",
-                                                      "","","","","","","","","","","")
-
-
-                Log.d("Categoría seleccionada","$categoryPreguntados")
-
-                //VOLVEMOS A REESCRIBIR EL ESTADO DE LAS PREGUNTAS CON LAS MODIFICACIONES QUE SE HAN HECHO DURANTE LA PARTIDA
-                if (categoryPreguntados.equals("criptoactivos")){
-
-                    persistQuestionsState("preguntasCriptoactivos.bin", questionsList)
-                }
-                if (categoryPreguntados.equals("blockchain")){
-
-                    persistQuestionsState("preguntasBlockchain.bin", questionsList)
-                }
-                if (categoryPreguntados.equals("nfts")){
-
-                    persistQuestionsState("preguntasNfts.bin", questionsList)
-                }
-
-            }
-
-            var pregunta = questionCounter.toString() + "-" +question[0]
-
+            //Establecemos las preguntas en los textView
             preguntaPreguntados.setText(pregunta)
             respuestaPreguntados1.setText(question[1])
             respuestaPreguntados2.setText(question[2])
             respuestaPreguntados3.setText(question[3])
             respuestaPreguntados4.setText(question[4])
 
+            //Ponemos las respuesta a la escucha para ver si son clickadas o no.
             respuestaPreguntados1.setOnClickListener {
 
                 selected[listPosition] = "1"
@@ -409,207 +226,712 @@ class PreguntadosFragment : Fragment() {
                 correctas[listPosition] = preg
             }
 
-        }
 
-        //LÓGICA DE BOTÓN DE IR PARA ATRÁS
-        anteriorPreguntados.setOnClickListener {
+            //LÓGICA DE BOTÓN DE SIGUIENTE
+            siguientePreguntados.setOnClickListener {
 
-            questionCounter -= 1
-            listPosition -= 1
+                anteriorPreguntados.visibility = View.VISIBLE
 
-            //Cuando esté en la primera pregunta, desactivamos el botón de atrás
-            if(listPosition == 0){
+                //Cambiamos el estado de esa pregunta a contestada
+                questionsList[listPosition].contestada = 1
 
-                anteriorPreguntados.visibility = View.INVISIBLE
+                questionCounter += 1
+                listPosition += 1
+                setQuestion(listPosition)
+
+                //TERMINAMOS LA PARTIDA CUANDO SE HAYAN COMPLETADO UN TOTAL DE 5 PREGUNTAS
+                if (questionCounter == 6) {
+
+                    //Invisivilizamos todos los elementos del preguntados
+                    preguntaPreguntados.visibility = View.INVISIBLE
+                    respuestaPreguntados1.visibility = View.INVISIBLE
+                    respuestaPreguntados2.visibility = View.INVISIBLE
+                    respuestaPreguntados3.visibility = View.INVISIBLE
+                    respuestaPreguntados4.visibility = View.INVISIBLE
+                    accionesPreguntados.visibility = View.INVISIBLE
+
+                    //Hacemos visible el resultado que ha obtenido el usuario en la partida
+                    resultadoPartida.visibility = View.VISIBLE
+
+                    for (seleccionada in selected) {
+
+                        Log.d("Seleccionadas", "$seleccionada")
+                    }
+
+                    for (correcta in correctas) {
+
+                        Log.d("Correctas", "${correcta.indiceRespuestaCorrecta}")
+                    }
+
+                    var cont = 0
+
+                    //Sumamos la respuestas correctas
+                    for (correcta in correctas) {
+
+                        if (selected[cont] == correcta.indiceRespuestaCorrecta && selected[cont] != "") {
+
+                            nrespuestasCorrectas += 1
+
+                            //Cambiamos a acertada el estado de la pregunta que tenga ese índice en la lista
+                            questionsList[correcta.indice].acertada = 1
+
+                        }
+                        cont += 1
+                    }
+
+                    //Ponemos al usuario las respuesta correcta que ha obtenido
+                    var score = "Has acertado $nrespuestasCorrectas/5 preguntas"
+                    resultado.setText(score)
+
+                    //Reseteamos a 0 el seleccionadas
+                    selected = arrayOf("", "", "", "", "", "", "", "", "", "",
+                            "", "", "", "", "", "", "", "", "", "",
+                            "", "", "", "", "", "", "", "", "", "",
+                            "", "", "", "", "", "", "", "", "", "",
+                            "", "", "", "", "", "", "", "", "", "", "")
+
+
+                    correctas = arrayOf(Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta,
+                            Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta,
+                            Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta,
+                            Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta,
+                            Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta)
+
+
+                    Log.d("Categoría seleccionada", "$categoryPreguntados")
+
+                    //VOLVEMOS A REESCRIBIR EL ESTADO DE LAS PREGUNTAS CON LAS MODIFICACIONES QUE SE HAN HECHO DURANTE LA PARTIDA
+                    if (categoryPreguntados.equals("criptoactivos")) {
+
+                        persistQuestionsState("preguntasCriptoactivos.bin", questionsList)
+                    }
+                    if (categoryPreguntados.equals("blockchain")) {
+
+                        persistQuestionsState("preguntasBlockchain.bin", questionsList)
+                    }
+                    if (categoryPreguntados.equals("nfts")) {
+
+                        persistQuestionsState("preguntasNfts.bin", questionsList)
+                    }
+
+
+                }
+
+                var pregunta = questionCounter.toString() + "-" + question[0]
+
+                preguntaPreguntados.setText(pregunta)
+                respuestaPreguntados1.setText(question[1])
+                respuestaPreguntados2.setText(question[2])
+                respuestaPreguntados3.setText(question[3])
+                respuestaPreguntados4.setText(question[4])
+
+                respuestaPreguntados1.setOnClickListener {
+
+                    selected[listPosition] = "1"
+
+                    //Instanciamos la pregunta de ese momento en una lista
+                    val preg = questionsList[listPosition]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                    preg.indice = listPosition
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                    preg.indiceRespuestaCorrecta = question[5]
+
+                    //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                    correctas[listPosition] = preg
+
+                }
+                respuestaPreguntados2.setOnClickListener {
+
+                    selected[listPosition] = "2"
+
+                    //Instanciamos la pregunta de ese momento en una lista
+                    val preg = questionsList[listPosition]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                    preg.indice = listPosition
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                    preg.indiceRespuestaCorrecta = question[5]
+
+                    //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                    correctas[listPosition] = preg
+
+                }
+                respuestaPreguntados3.setOnClickListener {
+
+                    selected[listPosition] = "3"
+
+                    //Instanciamos la pregunta de ese momento en una lista
+                    val preg = questionsList[listPosition]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                    preg.indice = listPosition
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                    preg.indiceRespuestaCorrecta = question[5]
+
+                    //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                    correctas[listPosition] = preg
+                }
+                respuestaPreguntados4.setOnClickListener {
+
+                    selected[listPosition] = "4"
+
+                    //Instanciamos la pregunta de ese momento en una lista
+                    val preg = questionsList[listPosition]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                    preg.indice = listPosition
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                    preg.indiceRespuestaCorrecta = question[5]
+
+                    //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                    correctas[listPosition] = preg
+                }
+
             }
 
-            //Recuperamos los elementos necesarios para establecer la lógica del preguntados
-            setQuestion(listPosition)
+            //LÓGICA DE BOTÓN DE IR PARA ATRÁS
+            anteriorPreguntados.setOnClickListener {
+
+                questionCounter -= 1
+                listPosition -= 1
+
+                //Cuando esté en la primera pregunta, desactivamos el botón de atrás
+                if (listPosition == 0) {
+
+                    anteriorPreguntados.visibility = View.INVISIBLE
+                }
+
+                //Recuperamos los elementos necesarios para establecer la lógica del preguntados
+                setQuestion(listPosition)
+
+                //Establecemos las preguntas en los textView
+                preguntaPreguntados.setText(questionCounter.toString() + "-" + question[0])
+                respuestaPreguntados1.setText(question[1])
+                respuestaPreguntados2.setText(question[2])
+                respuestaPreguntados3.setText(question[3])
+                respuestaPreguntados4.setText(question[4])
+
+
+            }
+
+            //LÓGICA DE BOTÓN DE PEDIR PISTA
+            pistaPreguntados.setOnClickListener {
+
+                //Ejecutamos el diálogo y funcionalidad de la pista
+                cluesDialog()
+            }
+
+            //LÓGICA DE BOTÓN DE SALIR DE LA PARTIDA
+            salirPartidaPreguntados.setOnClickListener {
+
+                //Restablecemos los valores iniciales
+                listPosition = 0
+                questionCounter = 1
+                nrespuestasCorrectas = 0
+
+                //Volvemos al fragment de criptoNow
+                var criptoNowFragment = CriptoNowFragment()
+
+                parentFragmentManager.beginTransaction().apply {
+
+                    replace(R.id.appfragments, criptoNowFragment)
+                    commit()
+                }
+
+            }
+
+        } else {
+
+            for(indice in indiceFalladas){
+
+                println("$indice")
+            }
+
+            //EJECUTAMOS LAS PREGUNTAS DE CADA CATEGORÍA QUE HAYAN TENIDO ERRORES
+            val randomOrder = getOrderPreguntados()
+
+            //Conseguimos los datos del primer error
+            question.set(0, questionsList[indiceFalladas[listPosition]].pregunta)
+            question.set(randomOrder[0], questionsList[indiceFalladas[listPosition]].rincorrecta1)
+            question.set(randomOrder[1], questionsList[indiceFalladas[listPosition]].rincorrecta2)
+            question.set(randomOrder[2], questionsList[indiceFalladas[listPosition]].rincorrecta3)
+            question.set(randomOrder[3], questionsList[indiceFalladas[listPosition]].rcorrecta)
+            question.set(5, randomOrder[3].toString())
+
+            //Establecemos el error en pantalla
+            var pregunta = questionCounter.toString() + "-" + question[0]
 
             //Establecemos las preguntas en los textView
-            preguntaPreguntados.setText(questionCounter.toString() + "-" +question[0])
+            preguntaPreguntados.setText(pregunta)
             respuestaPreguntados1.setText(question[1])
             respuestaPreguntados2.setText(question[2])
             respuestaPreguntados3.setText(question[3])
             respuestaPreguntados4.setText(question[4])
 
+            //Ponemos las respuesta a la escucha para ver si son clickadas o no.
+            respuestaPreguntados1.setOnClickListener {
 
-        }
+                selected[indiceFalladas[listPosition]] = "1"
 
-        //LÓGICA DE BOTÓN DE PEDIR PISTA
-        pistaPreguntados.setOnClickListener {
+                //Instanciamos la pregunta de ese momento en una lista
+                val preg = questionsList[indiceFalladas[listPosition]]
 
-            //Ejecutamos el diálogo y funcionalidad de la pista
-            cluesDialog()
-        }
+                //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                preg.indice = indiceFalladas[listPosition]
 
-        //LÓGICA DE BOTÓN DE SALIR DE LA PARTIDA
-        salirPartidaPreguntados.setOnClickListener {
+                //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                preg.indiceRespuestaCorrecta = question[5]
 
-            //Restablecemos los valores iniciales
-            listPosition = 0
-            questionCounter = 1
-            nrespuestasCorrectas = 0
+                //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                correctas[indiceFalladas[listPosition]] = preg
 
-            //Volvemos al fragment de criptoNow
-            var criptoNowFragment = CriptoNowFragment()
-
-            parentFragmentManager.beginTransaction().apply {
-
-                replace(R.id.appfragments, criptoNowFragment)
-                commit()
             }
+            respuestaPreguntados2.setOnClickListener {
+
+                selected[indiceFalladas[listPosition]] = "2"
+
+                //Instanciamos la pregunta de ese momento en una lista
+                val preg = questionsList[indiceFalladas[listPosition]]
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                preg.indice = indiceFalladas[listPosition]
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                preg.indiceRespuestaCorrecta = question[5]
+
+                //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                correctas[indiceFalladas[listPosition]] = preg
+
+            }
+            respuestaPreguntados3.setOnClickListener {
+
+                selected[indiceFalladas[listPosition]] = "3"
+
+                //Instanciamos la pregunta de ese momento en una lista
+                val preg = questionsList[indiceFalladas[listPosition]]
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                preg.indice = indiceFalladas[listPosition]
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                preg.indiceRespuestaCorrecta = question[5]
+
+                //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                correctas[indiceFalladas[listPosition]] = preg
+            }
+            respuestaPreguntados4.setOnClickListener {
+
+                selected[indiceFalladas[listPosition]] = "4"
+
+                //Instanciamos la pregunta de ese momento en una lista
+                val preg = questionsList[indiceFalladas[listPosition]]
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                preg.indice = indiceFalladas[listPosition]
+
+                //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                preg.indiceRespuestaCorrecta = question[5]
+
+                //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                correctas[indiceFalladas[listPosition]] = preg
+            }
+
+
+            siguientePreguntados.setOnClickListener {
+
+                anteriorPreguntados.visibility = View.VISIBLE
+
+                questionCounter += 1
+                listPosition += 1
+
+
+                val randomOrder = getOrderPreguntados()
+
+                try {
+
+                    //Recuperamos los elementos de la preguntas antes de establecerlos
+                    question.set(0, questionsList[indiceFalladas[listPosition]].pregunta)
+                    question.set(randomOrder[0], questionsList[indiceFalladas[listPosition]].rincorrecta1)
+                    question.set(randomOrder[1], questionsList[indiceFalladas[listPosition]].rincorrecta2)
+                    question.set(randomOrder[2], questionsList[indiceFalladas[listPosition]].rincorrecta3)
+                    question.set(randomOrder[3], questionsList[indiceFalladas[listPosition]].rcorrecta)
+                    question.set(5, randomOrder[3].toString())
+
+                }catch (e: Exception){
+
+                    //COMO HEMOS LLEGADO AL FINAL DE LOS ERRORES, EJECUTAMOS LA LÓGICA QUE FINALIZA LA PARTIDA
+                    //Invisivilizamos todos los elementos del preguntados
+                    preguntaPreguntados.visibility = View.INVISIBLE
+                    respuestaPreguntados1.visibility = View.INVISIBLE
+                    respuestaPreguntados2.visibility = View.INVISIBLE
+                    respuestaPreguntados3.visibility = View.INVISIBLE
+                    respuestaPreguntados4.visibility = View.INVISIBLE
+                    accionesPreguntados.visibility = View.INVISIBLE
+
+                    //Hacemos visible el resultado que ha obtenido el usuario en la partida
+                    resultadoPartida.visibility = View.VISIBLE
+
+                    for (seleccionada in selected) {
+
+                        Log.d("Seleccionadas Errores", "$seleccionada")
+                    }
+
+                    for (correcta in correctas) {
+
+                        Log.d("Correctas de Errores", "${correcta.indiceRespuestaCorrecta}")
+                    }
+
+                    var cont = 0
+
+                    //Sumamos la respuestas correctas
+                    for (correcta in correctas) {
+
+                        if (selected[indiceFalladas[cont]] == correcta.indiceRespuestaCorrecta) {
+
+                            nrespuestasCorrectas += 1
+
+                            //Cambiamos a acertada el estado de la pregunta que tenga ese índice en la lista
+                            questionsList[correcta.indice].acertada = 1
+
+                        }
+                        cont += 1
+                    }
+
+                    //Ponemos al usuario las respuesta correcta que ha obtenido
+                    var score = "Has acertado $nrespuestasCorrectas preguntas"
+                    resultado.setText(score)
+
+                    //Reseteamos a 0 el seleccionadas
+                    selected = arrayOf("", "", "", "", "", "", "", "", "", "",
+                            "", "", "", "", "", "", "", "", "", "",
+                            "", "", "", "", "", "", "", "", "", "",
+                            "", "", "", "", "", "", "", "", "", "",
+                            "", "", "", "", "", "", "", "", "", "", "")
+
+
+                    correctas = arrayOf(Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta,
+                            Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta,
+                            Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta,
+                            Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta,
+                            Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta, Companion.pregunta)
+
+
+                    Log.d("Categoría seleccionada", "$categoryPreguntados")
+
+                    //VOLVEMOS A REESCRIBIR EL ESTADO DE LAS PREGUNTAS CON LAS MODIFICACIONES QUE SE HAN HECHO DURANTE LA PARTIDA
+                    if (categoryPreguntados.equals("criptoactivos")) {
+
+                        persistQuestionsState("preguntasCriptoactivos.bin", questionsList)
+                    }
+                    if (categoryPreguntados.equals("blockchain")) {
+
+                        persistQuestionsState("preguntasBlockchain.bin", questionsList)
+                    }
+                    if (categoryPreguntados.equals("nfts")) {
+
+                        persistQuestionsState("preguntasNfts.bin", questionsList)
+                    }
+
+
+                }
+
+                //Establecemos el error en pantalla
+                var pregunta = questionCounter.toString() + "-" + question[0]
+
+                //Establecemos las preguntas en los textView
+                preguntaPreguntados.setText(pregunta)
+                respuestaPreguntados1.setText(question[1])
+                respuestaPreguntados2.setText(question[2])
+                respuestaPreguntados3.setText(question[3])
+                respuestaPreguntados4.setText(question[4])
+
+                //Ponemos las respuesta a la escucha para ver si son clickadas o no.
+                respuestaPreguntados1.setOnClickListener {
+
+                    selected[indiceFalladas[listPosition]] = "1"
+
+                    //Instanciamos la pregunta de ese momento en una lista
+                    val preg = questionsList[indiceFalladas[listPosition]]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                    preg.indice = indiceFalladas[listPosition]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                    preg.indiceRespuestaCorrecta = question[5]
+
+                    //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                    correctas[indiceFalladas[listPosition]] = preg
+
+                }
+                respuestaPreguntados2.setOnClickListener {
+
+                    selected[indiceFalladas[listPosition]] = "2"
+
+                    //Instanciamos la pregunta de ese momento en una lista
+                    val preg = questionsList[indiceFalladas[listPosition]]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                    preg.indice = indiceFalladas[listPosition]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                    preg.indiceRespuestaCorrecta = question[5]
+
+                    //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                    correctas[indiceFalladas[listPosition]] = preg
+
+                }
+                respuestaPreguntados3.setOnClickListener {
+
+                    selected[indiceFalladas[listPosition]] = "3"
+
+                    //Instanciamos la pregunta de ese momento en una lista
+                    val preg = questionsList[indiceFalladas[listPosition]]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                    preg.indice = indiceFalladas[listPosition]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                    preg.indiceRespuestaCorrecta = question[5]
+
+                    //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                    correctas[indiceFalladas[listPosition]] = preg
+                }
+                respuestaPreguntados4.setOnClickListener {
+
+                    selected[indiceFalladas[listPosition]] = "4"
+
+                    //Instanciamos la pregunta de ese momento en una lista
+                    val preg = questionsList[indiceFalladas[listPosition]]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice que ocupa en la lista
+                    preg.indice = indiceFalladas[listPosition]
+
+                    //Le añadimos a la pregunta de la lista de ese momento el índice de la pregunta que contiene la respuesta correcta
+                    preg.indiceRespuestaCorrecta = question[5]
+
+                    //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
+                    correctas[indiceFalladas[listPosition]] = preg
+                }
+
+            }
+
+            anteriorPreguntados.setOnClickListener {
+
+                questionCounter -= 1
+                listPosition -= 1
+
+                //Cuando esté en la primera pregunta, desactivamos el botón de atrás
+                if (listPosition == 0) {
+
+                    anteriorPreguntados.visibility = View.INVISIBLE
+                }
+
+                //Establecemos el siguiente error
+                val randomOrder = getOrderPreguntados()
+
+                //Conseguimos los datos del primer error
+                question.set(0, questionsList[indiceFalladas[listPosition]].pregunta)
+                question.set(randomOrder[0], questionsList[indiceFalladas[listPosition]].rincorrecta1)
+                question.set(randomOrder[1], questionsList[indiceFalladas[listPosition]].rincorrecta2)
+                question.set(randomOrder[2], questionsList[indiceFalladas[listPosition]].rincorrecta3)
+                question.set(randomOrder[3], questionsList[indiceFalladas[listPosition]].rcorrecta)
+                question.set(5, randomOrder[3].toString())
+
+                //Establecemos el error en pantalla
+                var pregunta = questionCounter.toString() + "-" + question[0]
+
+                //Establecemos las preguntas en los textView
+                preguntaPreguntados.setText(pregunta)
+                respuestaPreguntados1.setText(question[1])
+                respuestaPreguntados2.setText(question[2])
+                respuestaPreguntados3.setText(question[3])
+                respuestaPreguntados4.setText(question[4])
+
+
+            }
+
+
+            pistaPreguntados.setOnClickListener {
+
+                //Ejecutamos el diálogo y funcionalidad de la pista
+                cluesDialog()
+            }
+
+            salirPartidaPreguntados.setOnClickListener {
+
+                //Restablecemos los valores iniciales
+                listPosition = 0
+                questionCounter = 1
+                nrespuestasCorrectas = 0
+
+                //Volvemos al fragment de criptoNow
+                var criptoNowFragment = CriptoNowFragment()
+
+                parentFragmentManager.beginTransaction().apply {
+
+                    replace(R.id.appfragments, criptoNowFragment)
+                    commit()
+                }
+            }
+
 
         }
 
     }
 
     fun setQuestion(position: Int): Array<String> {
-        /*Método que recupera los elementos necesarios para la lógica del preguntados*/
+            /*Método que recupera los elementos necesarios para la lógica del preguntados*/
 
-        //Generamos un orden aleatorio para la colocación de las respuestas
-        val randomOrder = getOrderPreguntados()
+            //Generamos un orden aleatorio para la colocación de las respuestas
+            val randomOrder = getOrderPreguntados()
 
-        try {
+            try {
 
-            question.set(0, questionsList[position].pregunta)
-            question.set(randomOrder[0], questionsList[position].rincorrecta1)
-            question.set(randomOrder[1], questionsList[position].rincorrecta2)
-            question.set(randomOrder[2], questionsList[position].rincorrecta3)
-            question.set(randomOrder[3], questionsList[position].rcorrecta)
-            question.set(5, randomOrder[3].toString())
+                question.set(0, questionsList[position].pregunta)
+                question.set(randomOrder[0], questionsList[position].rincorrecta1)
+                question.set(randomOrder[1], questionsList[position].rincorrecta2)
+                question.set(randomOrder[2], questionsList[position].rincorrecta3)
+                question.set(randomOrder[3], questionsList[position].rcorrecta)
+                question.set(5, randomOrder[3].toString())
 
-        }catch (e: IndexOutOfBoundsException) {
+            }catch (e: Exception){
 
-            //En el caso que no haya más preguntas para mostrar, avisamos al usuario con un mensaje por pantalla
-            Toast.makeText(activity, "No hay más preguntas para $categoryPreguntados en esta versión. Pronto vendrán nuevas preguntas :)", Toast.LENGTH_LONG).show()
+                //En el caso que no haya más preguntas para mostrar, avisamos al usuario con un mensaje por pantalla
+                Toast.makeText(activity, "No hay más preguntas para en esta versión. Pronto vendrán nuevas preguntas :)", Toast.LENGTH_SHORT).show()
 
-            println("No hay más preguntas")
+                println("No hay más preguntas")
 
-            //Volvemos al fragment de criptoNow
-            val criptoNowFragment = CriptoNowFragment()
+                listPosition = 0
 
-            parentFragmentManager.beginTransaction().apply {
+                //Volvemos al fragment de criptoNow
+                val criptoNowFragment = CriptoNowFragment()
 
-                replace(R.id.appfragments, criptoNowFragment)
-                commit()
-            }
+                parentFragmentManager.beginTransaction().apply {
 
-        }
-
-        return question
-    }
-
-    fun getOrderPreguntados(): List<Int> {
-        /*Barajamos el orden de las respuestas correcta en incorrectas para darle una mayor
-        * complejidad al preguntados*/
-
-        var posiciones = listOf(1, 2, 3, 4)
-        val posicionesAleatorias = posiciones.shuffled()
-
-        return posicionesAleatorias
-    }
-
-    fun cluesDialog(){
-        /*Pregunta al usuario si quiere utilizar una pista, y la gasta en
-        caso de que el usuario seleccione que si*/
-
-        val builder = activity?.let { AlertDialog.Builder(it) }
-        builder?.setTitle("¿Quieres gastar una pista en esta pregunta?")
-        builder?.setPositiveButton("Sí", DialogInterface.OnClickListener { dialog, which ->
-
-            //Lista auxiliar con las posiciones
-            var listaPosiciones = mutableListOf(1, 2, 3, 4)
-
-            //Lista que vamos a rellenar con las nuevas posiciones sin la posición de la correcta
-            var listaPosicionesIncorrectas: MutableList<Int> = mutableListOf()
-            var posicionRespuestaCorrecta = question[5].toInt()
-
-            //Quitamos el índice de la posición correcta y rellenamos la nueva lista
-            for(number in listaPosiciones){
-                if (number != posicionRespuestaCorrecta){
-                    listaPosicionesIncorrectas.add(number)
+                    replace(R.id.appfragments, criptoNowFragment)
+                    commit()
                 }
             }
 
-            //Barajamos la lista para coger una respuesta incorrecta aleatoria
-            var lista = listaPosicionesIncorrectas.shuffled()
-
-            //Escogemos una respuesta incorrecta de manera aleatoria
-            var incorrectaAleatoria = lista[0]
-
-            //Sustituimos el contenido del EditText por la el texto de la pista
-            if(incorrectaAleatoria == 1){
-                respuestaPreguntados1.setText("Esta no es :)")
-            }
-            if(incorrectaAleatoria == 2){
-                respuestaPreguntados2.setText("Esta no es :)")
-            }
-            if(incorrectaAleatoria == 3){
-                respuestaPreguntados3.setText("Esta no es :)")
-            }
-            if(incorrectaAleatoria == 4){
-                respuestaPreguntados4.setText("Esta no es :)")
-            }
-
-            //Obtenemos el archivo de pistas
-            val cluesPref = requireActivity().getSharedPreferences(getString(R.string.cluesNumber),Context.MODE_PRIVATE)
-
-            //Obtenemos el número de pistas actual para restarle 1, ya que se ha gastado la pista
-            var cluesNumber = cluesPref.getInt("numPistas", 0)
-
-            //Se lo restamos
-            cluesNumber -= 1
-
-            val editor = cluesPref.edit()
-            editor?.apply {
-
-                //Guardamos en el archivo de pistas el valor con el número modificado por la pista gastada
-                putInt("numPistas", cluesNumber)
-
-            }?.apply()
-
-            Log.d(TAG, "Se ha gastado una pista")
-
-        })
-
-        builder?.setNegativeButton("Back") { dialog, which ->
-            dialog.dismiss()
+            return question
         }
 
-        //Creamos nuestro diálogo con nuestras características
-        val alertDialog = builder?.create()
-        alertDialog?.show()
+    fun getOrderPreguntados(): List<Int> {
+            /*Barajamos el orden de las respuestas correcta en incorrectas para darle una mayor
+        * complejidad al preguntados*/
 
+            var posiciones = listOf(1, 2, 3, 4)
+            val posicionesAleatorias = posiciones.shuffled()
+
+            return posicionesAleatorias
     }
+
+    fun cluesDialog() {
+            /*Pregunta al usuario si quiere utilizar una pista, y la gasta en
+        caso de que el usuario seleccione que si*/
+
+            val builder = activity?.let { AlertDialog.Builder(it) }
+            builder?.setTitle("¿Quieres gastar una pista en esta pregunta?")
+            builder?.setPositiveButton("Sí", DialogInterface.OnClickListener { dialog, which ->
+
+                //Lista auxiliar con las posiciones
+                var listaPosiciones = mutableListOf(1, 2, 3, 4)
+
+                //Lista que vamos a rellenar con las nuevas posiciones sin la posición de la correcta
+                var listaPosicionesIncorrectas: MutableList<Int> = mutableListOf()
+                var posicionRespuestaCorrecta = question[5].toInt()
+
+                //Quitamos el índice de la posición correcta y rellenamos la nueva lista
+                for (number in listaPosiciones) {
+                    if (number != posicionRespuestaCorrecta) {
+                        listaPosicionesIncorrectas.add(number)
+                    }
+                }
+
+                //Barajamos la lista para coger una respuesta incorrecta aleatoria
+                var lista = listaPosicionesIncorrectas.shuffled()
+
+                //Escogemos una respuesta incorrecta de manera aleatoria
+                var incorrectaAleatoria = lista[0]
+
+                //Sustituimos el contenido del EditText por la el texto de la pista
+                if (incorrectaAleatoria == 1) {
+                    respuestaPreguntados1.setText("Esta no es :)")
+                }
+                if (incorrectaAleatoria == 2) {
+                    respuestaPreguntados2.setText("Esta no es :)")
+                }
+                if (incorrectaAleatoria == 3) {
+                    respuestaPreguntados3.setText("Esta no es :)")
+                }
+                if (incorrectaAleatoria == 4) {
+                    respuestaPreguntados4.setText("Esta no es :)")
+                }
+
+                //Obtenemos el archivo de pistas
+                val cluesPref = requireActivity().getSharedPreferences(getString(R.string.cluesNumber), Context.MODE_PRIVATE)
+
+                //Obtenemos el número de pistas actual para restarle 1, ya que se ha gastado la pista
+                var cluesNumber = cluesPref.getInt("numPistas", 0)
+
+                //Se lo restamos
+                cluesNumber -= 1
+
+                val editor = cluesPref.edit()
+                editor?.apply {
+
+                    //Guardamos en el archivo de pistas el valor con el número modificado por la pista gastada
+                    putInt("numPistas", cluesNumber)
+
+                }?.apply()
+
+                Log.d(TAG, "Se ha gastado una pista")
+
+            })
+
+            builder?.setNegativeButton("Back") { dialog, which ->
+                dialog.dismiss()
+            }
+
+            //Creamos nuestro diálogo con nuestras características
+            val alertDialog = builder?.create()
+            alertDialog?.show()
+
+        }
 
     fun persistQuestionsState(fileName: String, lista: ArrayList<PreguntadosQuestion>) {
-        /**Método utilizado para generar y actualizar el archivo de objetos pregunta en memoria interna,
-         * con el fin de poder consultarlo para otras tareas. Todas las preguntas van dentro a su vez de
-         * un arrayList*/
+            /**Método utilizado para generar y actualizar el archivo de objetos pregunta en memoria interna,
+             * con el fin de poder consultarlo para otras tareas. Todas las preguntas van dentro a su vez de
+             * un arrayList*/
 
-        context?.openFileOutput(fileName, Context.MODE_PRIVATE)
-                .use { ObjectOutputStream(it).writeObject(lista) }
-    }
+            context?.openFileOutput(fileName, Context.MODE_PRIVATE)
+                    .use { ObjectOutputStream(it).writeObject(lista) }
+        }
 
     fun getQuestionsState(fileName: String): ArrayList<PreguntadosQuestion> {
-        /*Método utilizado para poder recuperar el estado de la lista de preguntas
+            /*Método utilizado para poder recuperar el estado de la lista de preguntas
         * que se encuentra en la memoria interna del dispositivo.
         * Devuelve un objeto lista con el estado de las preguntas*/
 
-        var objeto: ArrayList<PreguntadosQuestion> = arrayListOf()
-        val file = File(context?.filesDir, fileName)
-        //println(file.absolutePath)
+            var objeto: ArrayList<PreguntadosQuestion> = arrayListOf()
+            val file = File(context?.filesDir, fileName)
+            //println(file.absolutePath)
 
-        ObjectInputStream(FileInputStream(file)).use { it ->
-            //Read the family back from the file
-            objeto = it.readObject() as ArrayList<PreguntadosQuestion>
+            ObjectInputStream(FileInputStream(file)).use { it ->
+                //Read the family back from the file
+                objeto = it.readObject() as ArrayList<PreguntadosQuestion>
+            }
+
+            return objeto
         }
 
-        return objeto
-    }
-
 }
+
 
 
 

@@ -59,29 +59,28 @@ class CriptoNowFragment: Fragment() {
 
 
         //Recuperamos la lista de preguntas para ver su estado
-        /*val listaBlockchain = getQuestionsState("preguntasBlockchain.bin")
+        val listaBlockchain = getQuestionsState("preguntasBlockchain.bin")
         val sizeBlockchain = listaBlockchain.size
         for(pregunta in listaBlockchain){
 
-            Log.d("PreguntasNfts","${pregunta.pregunta} : ${pregunta.acertada}, Contestada: ${pregunta.contestada}")
-        }*/
-        //Log.d("PreguntasBlockchain","El tamaño de la lista de blockchain es $sizeBlockchain")
+            Log.d("PreguntasBlockchain","${pregunta.pregunta}, Acertadada:${pregunta.acertada}, Contestada: ${pregunta.contestada}, Indice = ${pregunta.indice}")
+        }
 
         /*val listaCriptoactivos = getQuestionsState("preguntasCriptoactivos.bin")
         val sizeCriptoactivos = listaCriptoactivos.size
         for(pregunta in listaCriptoactivos){
 
-            Log.d("PreguntasNfts","${pregunta.pregunta}: ${pregunta.acertada}")
-        }
-        //Log.d("PreguntasCriptoactivos","El tamaño de la lista de criptoactivos es $sizeCriptoactivos")*/
+            Log.d("PreguntasCriptoactivos","${pregunta.pregunta}, Acertadada:${pregunta.acertada}, Contestada: ${pregunta.contestada}, Indice = ${pregunta.indice}")
+        }*/
+
 
         /*val listaNfts = getQuestionsState("preguntasNfts.bin")
         val sizeNfts = listaNfts.size
         for(pregunta in listaNfts){
 
             Log.d("PreguntasNfts","${pregunta.pregunta} : ${pregunta.acertada}, Contestada: ${pregunta.contestada}")
-        }
-        //Log.d("PreguntasNfts","El tamaño de la lista de nfts es $sizeNfts")*/
+        }*/
+
 
 
         val preguntados = PreguntadosFragment()
@@ -369,6 +368,8 @@ class CriptoNowFragment: Fragment() {
 
         return objeto
     }
+
+
 
 
 }

@@ -34,6 +34,7 @@ class BadgesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         layoutManager = LinearLayoutManager(activity)
         badgesRecyclerView.layoutManager = layoutManager
 
@@ -41,7 +42,7 @@ class BadgesFragment : Fragment() {
         //Asociamos nuestra vista con un objeto de nuestra clase adaptador
         badgesRecyclerView.adapter = adapter
 
-        db = context?.let { CriptoNowDB(it) }
+
 
         //Leemos el estado del archivo de preguntas para ver si podemos desbloquear alguna insignia
        // println(getStateQuestions())
