@@ -50,7 +50,7 @@ class ProfileFragment: Fragment() {
 
                     if (options[i] == "Registrarme en Binance"){
 
-                        val binanceRegister = Intent(Intent.ACTION_VIEW, Uri.parse("https://accounts.binance.com/es/register"))
+                        val binanceRegister = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.binance.com/es/activity/referral-entry?fromActivityPage=true&ref=LIMIT_RL2YTPP7"))
                         //Abrimos la pantalla de registro para Binance
                         startActivity(binanceRegister)
                     }

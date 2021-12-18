@@ -1,21 +1,372 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fece2f"
-    tools:context=".BadgesFragment" >
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:padding="15dp"
-        android:id="@+id/badgesRecyclerView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="#fece2f"
+        tools:context=".BadgesFragment" >
+
+        <!--Cógigo que hay que descomentar para que funcione adaptador-->
+        <!--<androidx.recyclerview.widget.RecyclerView
+            android:padding="15dp"
+            android:id="@+id/badgesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />-->
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/bitcoinBadge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#daa520"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="3dp"
+                app:contentPadding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/cardImage1"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/shiba"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/cardTitle1"
+                        android:layout_width="236dp"
+                        android:layout_height="39dp"
+                        android:layout_marginStart="16dp"
+                        android:text="Bitcoin Beginner"
+                        android:textSize="30sp"
+                        app:layout_constraintLeft_toRightOf="@id/cardImage1"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/cardDescription1"
+                        android:layout_width="236dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="Has conseguido acertar de manera correcta cinco preguntas acerca de la criptomoneda Bitcoin."
+                        android:textSize="15sp"
+                        app:layout_constraintLeft_toRightOf="@id/cardImage1"
+                        app:layout_constraintTop_toBottomOf="@id/cardTitle1" />
+
+                    <ImageView
+                        android:id="@+id/badge1"
+                        android:layout_width="34dp"
+                        android:layout_height="31dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.956"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardDescription1" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/blockchainBadge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#daa520"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="3dp"
+                app:contentPadding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/cardImage2"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/shiba"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/cardTitle2"
+                        android:layout_width="236dp"
+                        android:layout_height="39dp"
+                        android:layout_marginStart="16dp"
+                        android:text="Blockchain  I"
+                        android:textSize="30sp"
+                        app:layout_constraintLeft_toRightOf="@id/cardImage2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/cardDescription2"
+                        android:layout_width="236dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="Has conseguido acertar de manera correcta diez preguntas generales acerca de la blockchain."
+                        android:textSize="15sp"
+                        app:layout_constraintLeft_toRightOf="@id/cardImage2"
+                        app:layout_constraintTop_toBottomOf="@id/cardTitle2" />
+
+                    <ImageView
+                        android:id="@+id/badge2"
+                        android:layout_width="34dp"
+                        android:layout_height="31dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.956"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardDescription2" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/nftBadge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#daa520"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="3dp"
+                app:contentPadding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/cardImage3"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/shiba"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/cardTitle3"
+                        android:layout_width="236dp"
+                        android:layout_height="39dp"
+                        android:layout_marginStart="16dp"
+                        android:text="Nft Begginer"
+                        android:textSize="30sp"
+                        app:layout_constraintLeft_toRightOf="@id/cardImage3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/cardDescription3"
+                        android:layout_width="236dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="Ya sabes 10 cosas más acerca del maravilloso mundo de los nfts. Sigue así :)"
+                        android:textSize="15sp"
+                        app:layout_constraintLeft_toRightOf="@id/cardImage3"
+                        app:layout_constraintTop_toBottomOf="@id/cardTitle3" />
+
+                    <ImageView
+                        android:id="@+id/badge3"
+                        android:layout_width="34dp"
+                        android:layout_height="31dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.956"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardDescription3" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/ethereumBadge2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#daa520"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="3dp"
+                app:contentPadding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardLayout4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/cardImage4"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/shiba"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/cardTitle4"
+                        android:layout_width="233dp"
+                        android:layout_height="44dp"
+                        android:text="Ether Master"
+                        android:layout_marginStart="16dp"
+                        android:textSize="30sp"
+                        app:layout_constraintLeft_toRightOf="@id/cardImage4"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/cardDescription4"
+                        android:layout_width="236dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="Has conseguido acertar con éxito todas las pregunta del juego acerca de Ethereum. "
+                        android:textSize="15sp"
+                        app:layout_constraintLeft_toRightOf="@id/cardImage4"
+                        app:layout_constraintTop_toBottomOf="@id/cardTitle4" />
+
+                    <ImageView
+                        android:id="@+id/badge4"
+                        android:layout_width="34dp"
+                        android:layout_height="31dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.956"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardDescription4" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/nftBadge2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="#daa520"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="3dp"
+                app:contentPadding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardLayout5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/cardImage5"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/shiba"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/cardTitle5"
+                        android:layout_width="236dp"
+                        android:layout_height="39dp"
+                        android:layout_marginStart="16dp"
+                        android:text="Nft God"
+                        android:textSize="30sp"
+                        app:layout_constraintLeft_toRightOf="@id/cardImage5"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/cardDescription5"
+                        android:layout_width="236dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="Has conseguido acertar todas las preguntas del juego acerca de los nfts. Quizá sea hora de invertir :)"
+                        android:textSize="15sp"
+                        app:layout_constraintLeft_toRightOf="@id/cardImage5"
+                        app:layout_constraintTop_toBottomOf="@id/cardTitle5" />
+
+                    <ImageView
+                        android:id="@+id/badge5"
+                        android:layout_width="34dp"
+                        android:layout_height="31dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.956"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardDescription5" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

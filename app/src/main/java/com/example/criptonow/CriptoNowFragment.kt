@@ -59,12 +59,12 @@ class CriptoNowFragment: Fragment() {
 
 
         //Recuperamos la lista de preguntas para ver su estado
-        val listaBlockchain = getQuestionsState("preguntasBlockchain.bin")
+        /*val listaBlockchain = getQuestionsState("preguntasBlockchain.bin")
         val sizeBlockchain = listaBlockchain.size
         for(pregunta in listaBlockchain){
 
             Log.d("PreguntasBlockchain","${pregunta.pregunta}, Acertadada:${pregunta.acertada}, Contestada: ${pregunta.contestada}, Indice = ${pregunta.indice}")
-        }
+        }*/
 
         /*val listaCriptoactivos = getQuestionsState("preguntasCriptoactivos.bin")
         val sizeCriptoactivos = listaCriptoactivos.size
@@ -141,6 +141,7 @@ class CriptoNowFragment: Fragment() {
 
                         if (options[i] == "ÚLTIMAS NOTICIAS DE BLOCKCHAIN"){
 
+                            Toast.makeText(requireActivity().baseContext, "HOlaaaaa", Toast.LENGTH_SHORT).show()
                             val noticiasBlockchain = Intent(Intent.ACTION_VIEW, Uri.parse("https://es.cointelegraph.com/tags/blockchain"))
                             startActivity(noticiasBlockchain)
                         }

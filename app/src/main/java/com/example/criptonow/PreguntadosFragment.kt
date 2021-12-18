@@ -2,6 +2,8 @@ package com.example.criptonow
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -69,13 +71,6 @@ class PreguntadosFragment : Fragment() {
 
         var indiceFalladas: ArrayList<Int> = arrayListOf()
 
-        //Variable que guarda las posiciones de las preguntas falladas
-        var aux: Array<Int> = arrayOf(0,0,0,0,0,0,0,0,0,0,
-                0,0,0,0,0,0,0,0,0,0
-                ,0,0,0,0,0,0,0,0,0,0
-                ,0,0,0,0,0,0,0,0,0,0,
-                0,0,0,0,0,0,0,0,0,0,0,0)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -119,7 +114,6 @@ class PreguntadosFragment : Fragment() {
         //Recorremos la lista de preguntas escogida y evaluamos el atributo para ver si están ya contestadas
         for (pregunta in questionsList) {
 
-            var indicePreguntaFallada = 0
             //Si es el modo normal y las preguntas ya están contestadas
             if (modoPreguntados == null && pregunta.contestada == 1) {
 
@@ -143,7 +137,7 @@ class PreguntadosFragment : Fragment() {
         }
 
 
-        //Ejecutamos las preguntas normales sin errores
+        //Ejecutamos las preguntas normales sin errores en partidas de 5
         if (modoPreguntados == null) {
 
             //Recuperamos los elementos necesarios para establecer la lógica del preguntados
@@ -455,13 +449,42 @@ class PreguntadosFragment : Fragment() {
             //EJECUTAMOS LAS PREGUNTAS DE CADA CATEGORÍA QUE HAYAN TENIDO ERRORES
             val randomOrder = getOrderPreguntados()
 
-            //Conseguimos los datos del primer error
-            question.set(0, questionsList[indiceFalladas[listPosition]].pregunta)
-            question.set(randomOrder[0], questionsList[indiceFalladas[listPosition]].rincorrecta1)
-            question.set(randomOrder[1], questionsList[indiceFalladas[listPosition]].rincorrecta2)
-            question.set(randomOrder[2], questionsList[indiceFalladas[listPosition]].rincorrecta3)
-            question.set(randomOrder[3], questionsList[indiceFalladas[listPosition]].rcorrecta)
-            question.set(5, randomOrder[3].toString())
+            //TRATAMOS LA EXCEPCIÓN QUE SE VA A PRODUCIR CUANDO NO QUEDES MÁS ERRORES
+            try {
+
+                //Conseguimos los datos del primer error
+                question.set(0, questionsList[indiceFalladas[listPosition]].pregunta)
+                question.set(randomOrder[0], questionsList[indiceFalladas[listPosition]].rincorrecta1)
+                question.set(randomOrder[1], questionsList[indiceFalladas[listPosition]].rincorrecta2)
+                question.set(randomOrder[2], questionsList[indiceFalladas[listPosition]].rincorrecta3)
+                question.set(randomOrder[3], questionsList[indiceFalladas[listPosition]].rcorrecta)
+                question.set(5, randomOrder[3].toString())
+
+            }catch (e: Exception){
+
+                //Creamos el diálogo para explicarle lo que pasa al usuario
+                val infoErrores = android.app.AlertDialog.Builder(context)
+                        .setTitle("CriptoNow Info")
+                        .setMessage("No tienes más errores pendientes para esta categoría: Buen trabajo.")
+                        .setPositiveButton("Vale") {dialog, _ ->
+
+                            dialog.dismiss()
+
+                        }.create()
+
+                infoErrores.show()
+
+                listPosition = 0
+
+                //Volvemos al fragment de criptoNow
+                val criptoNowFragment = CriptoNowFragment()
+
+                parentFragmentManager.beginTransaction().apply {
+
+                    replace(R.id.appfragments, criptoNowFragment)
+                    commit()
+                }
+            }
 
             //Establecemos el error en pantalla
             var pregunta = questionCounter.toString() + "-" + question[0]
@@ -506,7 +529,6 @@ class PreguntadosFragment : Fragment() {
 
                 //Añadimos la pregunta a lista de posiciones correctas para luego poder compararla con las seleccionadas
                 correctas[indiceFalladas[listPosition]] = preg
-
             }
             respuestaPreguntados3.setOnClickListener {
 
@@ -586,20 +608,28 @@ class PreguntadosFragment : Fragment() {
                         Log.d("Correctas de Errores", "${correcta.indiceRespuestaCorrecta}")
                     }
 
+                    /*for (indiceFallada in aux){
+
+                        Log.d("Indices Falladas", "$indiceFallada")
+                    }*/
+
                     var cont = 0
 
                     //Sumamos la respuestas correctas
                     for (correcta in correctas) {
 
-                        if (selected[indiceFalladas[cont]] == correcta.indiceRespuestaCorrecta) {
+                        if (selected[cont] == correcta.indiceRespuestaCorrecta && selected[cont] != "") {
 
                             nrespuestasCorrectas += 1
 
+                            println("Se ha sumado un respuesta correcta")
                             //Cambiamos a acertada el estado de la pregunta que tenga ese índice en la lista
                             questionsList[correcta.indice].acertada = 1
 
                         }
+
                         cont += 1
+
                     }
 
                     //Ponemos al usuario las respuesta correcta que ha obtenido
@@ -801,10 +831,18 @@ class PreguntadosFragment : Fragment() {
 
             }catch (e: Exception){
 
-                //En el caso que no haya más preguntas para mostrar, avisamos al usuario con un mensaje por pantalla
-                Toast.makeText(activity, "No hay más preguntas para en esta versión. Pronto vendrán nuevas preguntas :)", Toast.LENGTH_SHORT).show()
+                //Creamos el diálogo para explicarle lo que pasa al usuario
+                val info = android.app.AlertDialog.Builder(context)
+                        .setTitle("CriptoNow Info")
+                        .setMessage("No hay más preguntas para esta categoría en esta versión :). " +
+                                "En la próxima actualización habrá muchas más.")
+                        .setPositiveButton("Vale") {dialog, _ ->
 
-                println("No hay más preguntas")
+                            dialog.dismiss()
+
+                        }.create()
+
+                info.show()
 
                 listPosition = 0
 

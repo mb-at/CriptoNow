@@ -217,7 +217,7 @@
                     android:contentDescription="@null"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginStart="220dp"
+                    android:layout_marginStart="210dp"
                     android:layout_toEndOf="@id/textoNfts"
                     android:src="@drawable/options" />
 
